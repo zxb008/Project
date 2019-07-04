@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>buytogether</title>
-    <link rel="stylesheet" href="./static/css/reset.css">
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <!-- 移动端视口设置 -->
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <title>拼多多</title>
+  <!-- 引入全局的css样式 -->
+  <link rel="stylesheet" href="./static/css/reset.css">
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- 点击访问延迟3毫秒，主要是为了检测用户是否做双击，
+    引入fastclick，消除物理点击和click在移动浏览器上触发事件之间300毫秒的延迟。
+    目的是使您的应用程序感觉不那么迟钝和响应更快，同时避免干扰您当前的逻辑。 -->
+  <script src="./static/js/fastclick.js"></script>
+  <script>
+    if ('addEventListener' in document) {
+      document.addEventListener('DOMContentLoaded', function () {
+        FastClick.attach(document.body);
+      }, false);
+    }
+  </script>
+</body>
+
 </html>
