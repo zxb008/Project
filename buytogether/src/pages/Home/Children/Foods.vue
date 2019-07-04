@@ -1,12 +1,12 @@
 <template>
   <div>
-    推荐
+    食品
   </div>
 </template>
 
 <script>
 export default {
- name:'recommend'
+
 }
 </script>
 

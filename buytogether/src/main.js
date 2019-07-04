@@ -3,7 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import LyTab from 'ly-tab';
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 
+Vue.use(LyTab);
+Vue.use(MintUI)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    
     <router-view/>
+    <TabBar></TabBar>
   </div>
 </template>
 
 <script>
+import TabBar from '@/components/TabBar/TabBar'
 export default {
-  name: 'App'
+  name: 'App',
+  components:{
+    TabBar
+  }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus" scoped>
+#app
+  width 100%
+  height 100%
+  background-color #f5f5f5
 </style>
