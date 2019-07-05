@@ -4,7 +4,7 @@
       <li class="list-item">
         <img src="../../imgs/shop_list/shop_item.png" alt />
         <div class="list-item-right">
-          <span class="right-title">【唐幂】整条刺绣民族风围巾女士秋东季中年妈妈羊绒羊毛披肩保暖,送给妈妈最好的礼物</span>
+          <span class="right-title">【唐幂】整条欧伦风牛仔女士秋东季大学生修身保暖</span>
           <div class="right-bot">
             <div class="bot-bal">
               <span>极速退款</span>
@@ -22,6 +22,49 @@
           </div>
         </div>
       </li>
+      <li class="list-item">
+        <img src="../../imgs/shop_list/shop_item.png" alt />
+        <div class="list-item-right">
+          <span class="right-title">【唐幂】整条欧伦风牛仔女士秋东季大学生修身保暖</span>
+          <div class="right-bot">
+            <div class="bot-bal">
+              <span>极速退款</span>
+              <span>好友收藏</span>
+              <span>本周畅销前十</span>
+            </div>
+            <div class="bot-msg">
+              <span class="bot-price">￥26.9</span>
+              <span class="bot-num">已拼5345件</span>
+              <div class="bot-user">
+                <img src="../../imgs/shop_list/user1.jpg" alt />
+                <img src="../../imgs/shop_list/user2.jpg" alt />
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="list-item">
+        <img src="../../imgs/shop_list/shop_item.png" alt />
+        <div class="list-item-right">
+          <span class="right-title">【唐幂】整条欧伦风牛仔女士秋东季大学生修身保暖</span>
+          <div class="right-bot">
+            <div class="bot-bal">
+              <span>极速退款</span>
+              <span>好友收藏</span>
+              <span>本周畅销前十</span>
+            </div>
+            <div class="bot-msg">
+              <span class="bot-price">￥26.9</span>
+              <span class="bot-num">已拼5345件</span>
+              <div class="bot-user">
+                <img src="../../imgs/shop_list/user1.jpg" alt />
+                <img src="../../imgs/shop_list/user2.jpg" alt />
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      
     </ul>
   </div>
 </template>
