@@ -14,10 +14,12 @@
     <!-- Optional controls -->
     <div class="swiper-pagination"  slot="pagination"></div>
   </swiper>
+  <HotNav/>
   </div>
 </template>
 
 <script>
+import HotNav from './HotNav'
 export default {
     name: 'hot',
     data() {
@@ -32,6 +34,9 @@ export default {
             }
         }
       }
+    },
+    components:{
+      HotNav
     }
   }
 </script>
