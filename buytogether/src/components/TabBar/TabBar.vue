@@ -29,24 +29,24 @@ export default {
     return {
       imgArray: [
         {
-          bef: require("@/common/img/icon_home.png"),
-          afe: require("@/common/img/icon_home_selected.png")
+          bef: require("@/components/TabBar/img/icon_home.png"),
+          afe: require("@/components/TabBar/img/icon_home_selected.png")
         },
         {
-          bef: require("@/common/img/icon_intro.png"),
-          afe: require("@/common/img/icon_intro_selected.png")
+          bef: require("@/components/TabBar/img/icon_intro.png"),
+          afe: require("@/components/TabBar/img/icon_intro_selected.png")
         },
         {
-          bef: require("@/common/img/icon_search.png"),
-          afe: require("@/common/img/icon_search_selected.png")
+          bef: require("@/components/TabBar/img/icon_search.png"),
+          afe: require("@/components/TabBar/img/icon_search_selected.png")
         },
         {
-          bef: require("@/common/img/icon_chat.png"),
-          afe: require("@/common/img/icon_chat_selected.png")
+          bef: require("@/components/TabBar/img/icon_chat.png"),
+          afe: require("@/components/TabBar/img/icon_chat_selected.png")
         },
         {
-          bef: require("@/common/img/icon_mine.png"),
-          afe: require("@/common/img/icon_mine_selected.png")
+          bef: require("@/components/TabBar/img/icon_mine.png"),
+          afe: require("@/components/TabBar/img/icon_mine_selected.png")
         }
       ]
     };

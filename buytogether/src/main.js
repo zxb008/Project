@@ -3,10 +3,16 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+
 import LyTab from 'ly-tab';
+
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+
+Vue.use(VueAwesomeSwiper, /* { default global options } */)
 Vue.use(LyTab);
 Vue.use(MintUI)
 Vue.config.productionTip = false

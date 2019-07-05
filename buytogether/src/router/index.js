@@ -6,7 +6,7 @@ import Chat from '@/pages/Chat/Chat'
 import Search from '@/pages/Search/Search'
 import Me from '@/pages/Me/Me'
 
-import Hot from '@/pages/Home/Children/Hot'
+import Hot from '@/pages/Home/Children/Hot/Hot'
 import WomanClothes from '@/pages/Home/Children/WomanClothes'
 import DepartmentStore from '@/pages/Home/Children/DepartmentStore'
 import ShopBag from '@/pages/Home/Children/ShopBag'
