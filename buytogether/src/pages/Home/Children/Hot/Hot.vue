@@ -1,7 +1,7 @@
 <template>
   <div class="hot">
+    <!-- 轮播 -->
    <swiper :options="swiperOption">
-    <!-- slides -->
     <swiper-slide><img src="../../imgs/rowing/s1.png" width="100%"></swiper-slide>
     <swiper-slide><img src="../../imgs/rowing/s2.png" width="100%"></swiper-slide>
     <swiper-slide><img src="../../imgs/rowing/s3.png" width="100%"></swiper-slide>
@@ -11,15 +11,22 @@
     <swiper-slide><img src="../../imgs/rowing/s7.png" width="100%"></swiper-slide>
     <swiper-slide><img src="../../imgs/rowing/s8.png" width="100%"></swiper-slide>
     <swiper-slide><img src="../../imgs/rowing/s9.png" width="100%"></swiper-slide>
-    <!-- Optional controls -->
     <div class="swiper-pagination"  slot="pagination"></div>
   </swiper>
+  <!-- nav分类 -->
   <HotNav/>
+    <!-- 广告位 -->
+    <div class="ad">
+      <img src="../../imgs/hot_ad/home_ad.gif" width="100%" alt="">
+    </div>
+  <!-- 商品列表 -->
+  <HotShopList/>
   </div>
 </template>
 
 <script>
 import HotNav from './HotNav'
+import HotShopList from './HotShopList'
 export default {
     name: 'hot',
     data() {
@@ -36,7 +43,8 @@ export default {
       }
     },
     components:{
-      HotNav
+      HotNav,
+      HotShopList
     }
   }
 </script>
@@ -46,4 +54,8 @@ export default {
   width 100%
   height 100%
   padding-top 2.7rem
+  .ad
+    width 100%
+    margin 8px 0
+    background-color #fff
 </style>
