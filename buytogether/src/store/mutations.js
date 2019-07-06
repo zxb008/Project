@@ -15,5 +15,9 @@ export default {
   //获取首页导航  这里的第二个参数采用了对象的解构
   [HOME_NAV] (state,{homenav}) {
     state.homenav = homenav;
+  },
+  //获取首页商品列表
+  [HOME_SHOP_LIST] (state,{homeshoplist}){
+    state.homeshoplist = homeshoplist;
   }
 }

@@ -33,5 +33,9 @@ export default {
    async reqHomeNav({commit}) {
     const result = await getHomeNav();
     commit(HOME_NAV, {homenav: result.message.data})
+  },
+  async reqHomeShopList({commit}){
+    const result = await getHomeShopList();
+    commit(HOME_SHOP_LIST,{homeshoplist:result.message.goods_list})
   }
 }

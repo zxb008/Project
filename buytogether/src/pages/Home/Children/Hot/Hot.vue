@@ -5,14 +5,6 @@
     <swiper-slide v-for="(item, index) in homecasual" :key="index">
       <img :src="item.imgurl" width="100%">
     </swiper-slide>
-    <!-- <swiper-slide><img src="../../imgs/rowing/s2.png" width="100%"></swiper-slide>
-    <swiper-slide><img src="../../imgs/rowing/s3.png" width="100%"></swiper-slide>
-    <swiper-slide><img src="../../imgs/rowing/s4.png" width="100%"></swiper-slide>
-    <swiper-slide><img src="../../imgs/rowing/s5.png" width="100%"></swiper-slide>
-    <swiper-slide><img src="../../imgs/rowing/s6.png" width="100%"></swiper-slide>
-    <swiper-slide><img src="../../imgs/rowing/s7.png" width="100%"></swiper-slide>
-    <swiper-slide><img src="../../imgs/rowing/s8.png" width="100%"></swiper-slide>
-    <swiper-slide><img src="../../imgs/rowing/s9.png" width="100%"></swiper-slide> -->
     <div class="swiper-pagination"  slot="pagination"></div>
   </swiper>
   <!-- nav分类 -->
@@ -72,6 +64,10 @@ export default {
     mounted() {
       //通过dispatch执行action中的reqHomeCasual()函数来从后端请求轮播的图片存到state里面
       this.$store.dispatch('reqHomeCasual');
+      
+      this.$store.dispatch('reqHomeNav');
+      
+      this.$store.dispatch('reqHomeShopList');
     },
   }
 </script>

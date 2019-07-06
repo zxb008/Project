@@ -1,10 +1,10 @@
 <template>
   <div class="hotshoplist">
-    <ul>
-      <li class="list-item">
-        <img src="../../imgs/shop_list/shop_item.png" alt />
+    <ul v-if="homeshoplist.length > 0">
+      <li class="list-item" v-for="(item,index) in homeshoplist" :key="index">
+        <img :src="item.image_url" alt />
         <div class="list-item-right">
-          <span class="right-title">【唐幂】整条欧伦风牛仔女士秋东季大学生修身保暖</span>
+          <span class="right-title">{{item.goods_name}}</span>
           <div class="right-bot">
             <div class="bot-bal">
               <span>极速退款</span>
@@ -12,65 +12,26 @@
               <span>本周畅销前十</span>
             </div>
             <div class="bot-msg">
-              <span class="bot-price">￥26.9</span>
-              <span class="bot-num">已拼5345件</span>
+              <span class="bot-price">￥{{item.normal_price / 100}}</span>
+              <span class="bot-num">{{item.sales_tip}}</span>
               <div class="bot-user">
-                <img src="../../imgs/shop_list/user1.jpg" alt />
-                <img src="../../imgs/shop_list/user2.jpg" alt />
+                 <img :src="user.avatar" alt="" v-for="(user, userindex) in item.bubble" :key="userindex">
               </div>
             </div>
           </div>
         </div>
       </li>
-      <li class="list-item">
-        <img src="../../imgs/shop_list/shop_item.png" alt />
-        <div class="list-item-right">
-          <span class="right-title">【唐幂】整条欧伦风牛仔女士秋东季大学生修身保暖</span>
-          <div class="right-bot">
-            <div class="bot-bal">
-              <span>极速退款</span>
-              <span>好友收藏</span>
-              <span>本周畅销前十</span>
-            </div>
-            <div class="bot-msg">
-              <span class="bot-price">￥26.9</span>
-              <span class="bot-num">已拼5345件</span>
-              <div class="bot-user">
-                <img src="../../imgs/shop_list/user1.jpg" alt />
-                <img src="../../imgs/shop_list/user2.jpg" alt />
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="list-item">
-        <img src="../../imgs/shop_list/shop_item.png" alt />
-        <div class="list-item-right">
-          <span class="right-title">【唐幂】整条欧伦风牛仔女士秋东季大学生修身保暖</span>
-          <div class="right-bot">
-            <div class="bot-bal">
-              <span>极速退款</span>
-              <span>好友收藏</span>
-              <span>本周畅销前十</span>
-            </div>
-            <div class="bot-msg">
-              <span class="bot-price">￥26.9</span>
-              <span class="bot-num">已拼5345件</span>
-              <div class="bot-user">
-                <img src="../../imgs/shop_list/user1.jpg" alt />
-                <img src="../../imgs/shop_list/user2.jpg" alt />
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-      
     </ul>
   </div>
 </template>
 
 <script>
-export default {};
+import {mapState} from 'vuex'
+export default {
+  computed: {
+    ...mapState(['homeshoplist'])
+  },
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -90,9 +51,9 @@ export default {};
       img
         width 40%
         height 100%
-        flex 4
+        flex 5
       .list-item-right
-        flex 6
+        flex 5
         display flex
         flex-direction column
         justify-content space-between
