@@ -35,7 +35,7 @@ function $http(url, params = {}, type = 'GET') {
     peomise.then(function (res) {
       resolve(res.data);
     }).catch(function (err) {
-      reject(error)
+      reject(err)
     })
   })
 }
