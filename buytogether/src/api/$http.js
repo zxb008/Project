@@ -32,7 +32,7 @@ function $http(url, params = {}, type = 'GET') {
     }
     //这里需要注意，$http函数返回的是一个Promise对象,return new Promise(function (resolve, reject) { }
     //所以外界调用这个函数的时候也会$http.then(),那么resolve()和reject()中的参数是根绝axios返回的promise来确定的
-    peomise.then(function (res) {
+    promise.then(function (res) {
       resolve(res.data);
     }).catch(function (err) {
       reject(err)

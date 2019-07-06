@@ -16,7 +16,7 @@ import {
 
 export default {
   //获取首页的轮播图片,那么这个函数应该是异步的，async表示这个函数是异步执行的
-  //action里面的函数会默认有一个参数：context对象
+  //action里面的函数会默认有一个参数：context对象,当然也可以有第二个参数，是dispatch传递过来的参数
   async reqHomeCasual (context) {
     //执行getHomeCasual 会得到一个Promise对象
     //await 只会在async函数内部使用
