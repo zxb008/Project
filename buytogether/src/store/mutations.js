@@ -19,5 +19,9 @@ export default {
   //获取首页商品列表
   [HOME_SHOP_LIST] (state,{homeshoplist}){
     state.homeshoplist = homeshoplist;
+  },
+  
+  [RECOMMEND_SHOP_LIST](state,{recommendshoplist}){
+    state.recommendshoplist = recommendshoplist;
   }
 }

@@ -8,7 +8,10 @@ export const getHomeCasual =  function () {
   let promise = $http(`${baseURL}/api/homecasual`);
   return promise;
 }
-// 2.2 请求首页的导航
+// 请求首页的导航
 export const getHomeNav = ()=>$http(`${baseURL}/api/homenav`);
-//请求商品列表数据
+// 请求首页板块商品列表数据
  export const getHomeShopList = ()=>$http(`${baseURL}/api/homeshoplist`);
+
+ //请求推荐板块的商品列表数据
+ export const getRecommendShopList = ()=>$http(`${baseURL}/api/recommendshoplist`);

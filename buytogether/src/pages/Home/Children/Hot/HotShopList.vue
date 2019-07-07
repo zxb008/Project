@@ -78,7 +78,8 @@ export default {
             flex 1
             span
               font-size 9px
-              margin-right 3px 
+              margin-right 3px
+              overflow hidden 
               color #F35151
               background-color #E4ABAB
               border-radius 4px

@@ -34,8 +34,14 @@ export default {
     const result = await getHomeNav();
     commit(HOME_NAV, {homenav: result.message.data})
   },
+  //获取首页板块的商品列表数据
   async reqHomeShopList({commit}){
     const result = await getHomeShopList();
     commit(HOME_SHOP_LIST,{homeshoplist:result.message.goods_list})
+  },
+  //获取推荐板块的商品列表数据
+  async reqRecommendShopList({commit}){
+    const result  = await getRecommendShopList();
+    commit(RECOMMEND_SHOP_LIST,{recommendshoplist:result.message.data})
   }
 }
