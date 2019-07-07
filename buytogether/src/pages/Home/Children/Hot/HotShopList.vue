@@ -7,9 +7,10 @@
           <span class="right-title">{{item.goods_name}}</span>
           <div class="right-bot">
             <div class="bot-bal">
-              <span>极速退款</span>
+              <span v-for="(babel ,babelindex) in item.babels" :key="babelindex">{{babel}}</span>
+              <!-- <span>极速退款</span>
               <span>好友收藏</span>
-              <span>本周畅销前十</span>
+              <span>本周畅销前十</span> -->
             </div>
             <div class="bot-msg">
               <span class="bot-price">￥{{item.normal_price / 100}}</span>
@@ -58,6 +59,7 @@ export default {
         flex-direction column
         justify-content space-between
         .right-title
+          font-family serif
           line-height 16px
           font-size 13px
           font-weight 550
