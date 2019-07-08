@@ -20,8 +20,11 @@ export default {
   [HOME_SHOP_LIST] (state,{homeshoplist}){
     state.homeshoplist = homeshoplist;
   },
-  
+  //获取推荐板块的商品数据
   [RECOMMEND_SHOP_LIST](state,{recommendshoplist}){
     state.recommendshoplist = recommendshoplist;
+  },
+  [SEARCH_GOODS](state,{searchgoods}){
+    state.searchgoods = searchgoods;
   }
 }

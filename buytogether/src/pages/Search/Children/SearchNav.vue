@@ -24,6 +24,7 @@ export default {};
   width 100%
   height 90px
   position fixed
+  z-index 98
   background-color #FFFFFF
   top 0px
   left 0px

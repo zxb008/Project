@@ -2,5 +2,6 @@ export default {
   homecasual:[],
   homenav:[],
   homeshoplist:[],
-  recommendshoplist:[]
+  recommendshoplist:[],
+  searchgoods:[]
 }

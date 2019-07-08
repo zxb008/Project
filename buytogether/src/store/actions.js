@@ -43,5 +43,11 @@ export default {
   async reqRecommendShopList({commit}){
     const result  = await getRecommendShopList();
     commit(RECOMMEND_SHOP_LIST,{recommendshoplist:result.message.data})
+  },
+  
+  //获取搜索板块的商品列表数据
+  async reqSearchGoods({commit}) {
+    const result  = await getSearchGoods();
+    commit(SEARCH_GOODS,{searchgoods:result.message.data})
   }
 }
