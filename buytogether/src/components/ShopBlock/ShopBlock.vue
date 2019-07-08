@@ -24,10 +24,10 @@ props:{
 
 <style lang="stylus" scoped>
 .shopblock:nth-child(odd)
-  padding 0px 1% 8px 0px
+  margin 0px 1% 8px 0px
 .shopblock
   &:nth-child(even)
-    padding 0px 0px 8px 1%
+    margin 0px 0px 8px 1%
 .shopblock
   width 49%
   // height 100px
