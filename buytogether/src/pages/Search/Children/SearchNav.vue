@@ -17,7 +17,7 @@
 export default {
   methods: {
     showMianBan () {
-      //mianBan是父组件传递过来的
+      //mianBan是父组件传递过来的，这个方法向父组件传值，打开面板
       this.$emit('mianBan',true)
     }
   },
