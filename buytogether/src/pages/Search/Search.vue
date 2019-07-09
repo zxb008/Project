@@ -75,7 +75,7 @@ export default {
         //2.在右边盒子滑动的同时，左边也要滑动
         this._leftScroll(index);
 
-        return !rightLiArr[index + 1] || (scrollY >= liTop && scrollY < rightLiArr[index + 1]);
+        return scrollY >= liTop && scrollY < rightLiArr[index + 1];
       });
     }
   },
