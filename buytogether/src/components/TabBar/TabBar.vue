@@ -10,11 +10,11 @@
     </div>
     <div class="tabBar-item" @click="jump('/search')">
        <img :src="$route.path.includes('/search') ? imgArray[2].afe : imgArray[2].bef" alt />
-      <span :class="{'selected':$route.path ==='/chat'}">搜索</span>
+      <span :class="{'selected':$route.path ==='/search'}">搜索</span>
     </div>
     <div class="tabBar-item" @click="jump('/chat')">
        <img :src="$route.path.includes('/chat') ? imgArray[3].afe : imgArray[3].bef" alt />
-      <span :class="{'selected':$route.path ==='/search'}">聊天</span>
+      <span :class="{'selected':$route.path ==='/chat'}">聊天</span>
     </div>
     <div class="tabBar-item" @click="jump('/me')">
        <img :src="$route.path.includes('/me') ? imgArray[4].afe : imgArray[4].bef" alt />
