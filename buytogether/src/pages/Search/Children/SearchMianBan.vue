@@ -16,7 +16,7 @@
           <span>最近搜索</span>
         </div>
       <ul class="search-list">
-        <li v-for="(item,index) in historyValue" :key="index">{{item}}</li>
+        <li @click="searchLi(index)" v-for="(item,index) in historyValue" :key="index">{{item}}</li>
       </ul>
     </div>
     <div class="search-content">
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       value:'',
-      historyValue:[]
+      historyValue:[]//存放搜索的历史记录
     }
   },
   watch: {
@@ -58,11 +58,17 @@ export default {
     },
     search () {
      //显示搜索的历史记录
-      if (this.value != '') {
+      let flag = this.historyValue.every((item,index)=>{
+        return item !== this.value
+      })
+      if (this.value !== '' && flag ) {
          this.historyValue.push(this.value)
       }
       //跳转路由,同时把参数value传过去
-      
+
+    },
+    searchLi(index){
+      this.value = this.historyValue[index]
     }
   }
 };
