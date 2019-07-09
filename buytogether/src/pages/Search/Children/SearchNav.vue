@@ -4,7 +4,7 @@
       <span>寻找</span>
       <img src="../images/share.png" alt="">
     </div>
-    <div class="searchnav-bot">
+    <div class="searchnav-bot" @click="showMianBan">
       <mt-button>
           <img src="../images/search.png" height="20" width="20" slot="icon" />
           ins风发夹
@@ -14,7 +14,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    showMianBan () {
+      //mianBan是父组件传递过来的
+      this.$emit('mianBan',true)
+    }
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

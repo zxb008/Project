@@ -1,6 +1,6 @@
 <template>
   <div class="search">
-    <SearchNav />
+    <SearchNav @mianBan="mianBan" />
     <div class="search-bot">
       <div class="left" ref="left">
         <ul ref="lefttul">
@@ -38,6 +38,7 @@
         </ul>
       </div>
     </div>
+    <SearchMianBan v-if="show" @mianBan="mianBan"/>
   </div>
 </template>
 
@@ -45,6 +46,7 @@
 import BScroll from "better-scroll";
 import { mapState } from "vuex";
 import SearchNav from "./Children/SearchNav";
+import SearchMianBan from './Children/SearchMianBan'
 export default {
   name: "search",
   data() {
@@ -52,7 +54,8 @@ export default {
       //右边盒子向上滚动，滚出上边界的距离，是实时更新的
       scrollY: 0,
       //右边盒子中每个li标签距离顶部距离
-      rightLiArr: []
+      rightLiArr: [],
+      show:false
     };
   },
   computed: {
@@ -77,7 +80,8 @@ export default {
     }
   },
   components: {
-    SearchNav
+    SearchNav,
+    SearchMianBan
   },
   mounted() {
     //使得vuex里面的state获取到搜索板块的商品数据
@@ -95,6 +99,10 @@ export default {
     }
   },
   methods: {
+    //接收SearchNav组件传递过来的值，以此来改变show的值确定是否显示SearchMianBan组件
+    mianBan (flag){
+      this.show = flag
+    },
     _initScroll() {
       //使得左右两边的盒子right和left度可以滚动
       this.scrollLeft = new BScroll(this.$refs.left, {

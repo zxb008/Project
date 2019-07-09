@@ -1,6 +1,7 @@
 import $http from './$http';
 
-const baseURL = 'http://127.0.0.1:3000';
+// const baseURL = 'http://127.0.0.1:3000';
+const baseURL = '/api';
 
 // 请求首页的轮播图数据
 //那么执行getHomeCasual()得到的是一个Promise对象
