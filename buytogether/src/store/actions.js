@@ -11,6 +11,8 @@ import {
   HOME_SHOP_LIST,
   RECOMMEND_SHOP_LIST,
   SEARCH_GOODS,
+  HISTORY_VALUES,
+  CLEAR_HISTORY_VALUES
 } from './mutation-types'
 
 
@@ -49,5 +51,15 @@ export default {
   async reqSearchGoods({commit}) {
     const result  = await getSearchGoods();
     commit(SEARCH_GOODS,{searchgoods:result.message.data})
+  },
+  //获取搜索的历史记录
+  async reqHistoryValue({commit},param) {
+    
+    commit(HISTORY_VALUES,{value:param.value})
+  },
+  //清除历史记录
+  async clearHistoryValue({commit}) {
+    
+    commit(CLEAR_HISTORY_VALUES)
   }
 }

@@ -13,17 +13,19 @@
     <!-- <div class="bot" ref="bot"> -->
       <div class="search-content">
         <div class="title">
-          <img src="../images/fire.png" alt width="25" />
+          <img src="../images/time.png" alt  />
           <span>最近搜索</span>
+          <div @click="clear" ><img src="../images/garbage.png" alt="" ></div>
         </div>
         <ul class="search-list">
-          <li @click="searchLi(index)" v-for="(item,index) in historyValue" :key="index">{{item}}</li>
+          <li @click="searchLi(index)" v-for="(item,index) in historyvalues" :key="index">{{item}}</li>
         </ul>
       </div>
       <div class="search-content">
         <div class="title">
           <img src="../images/fire.png" alt width="25" />
           <span>搜索发现</span>
+          <div></div>
         </div>
         <ul class="search-list">
           <li>时尚潮鞋</li>
@@ -42,18 +44,17 @@
 
 <script>
 // import BScroll from "better-scroll";
+import {mapState} from 'vuex'
 export default {
   name: "searchmianban",
   data() {
     return {
-      value: "",
-      historyValue: [] //存放搜索的历史记录
+      value: ""
     };
   },
-  watch: {
-    // value () {
-    //   historyValue.push()
-    // }
+  //从vuex中的state去除所有的历史记录
+  computed: {
+    ...mapState(['historyvalues'])
   },
   mounted() {
     //input聚焦
@@ -84,17 +85,33 @@ export default {
     //点击搜索按钮以后
     search() {
       //显示搜索的历史记录
-      let flag = this.historyValue.every((item, index) => {
+      let flag = this.historyvalues.every((item, index) => {
         return item !== this.value;
       });
       if (this.value !== "" && flag) {
-        this.historyValue.push(this.value);
+        // this.historyValue.push(this.value);
+        this.$store.dispatch('reqHistoryValue',{value:this.value})
+         //跳转路由,同时把参数value传过去
+         this.goSearch(this.value)
+         //清空input
+        this.value = ''
       }
-      //跳转路由,同时把参数value传过去
+     
     },
     //点击显示的历史li标签以后
     searchLi(index) {
-      this.value = this.historyValue[index];
+      this.value = this.historyvalues[index];
+      //跳转路由,同时把参数value传过去
+      setTimeout(()=>{
+        this.goSearch(this.value)
+      },2000)
+    },
+    goSearch(param){
+
+    },
+    clear(){
+       this.$store.dispatch('clearHistoryValue');
+        this.value = ''
     }
   }
 };
@@ -154,6 +171,19 @@ export default {
       align-items center
       color #aaa
       margin-bottom 10px
+      img 
+        flex 0.7
+        height  20px
+      span
+        line-height  20px
+        flex 8.3
+        padding-left 10px
+      div
+        flex 1
+        height 20px
+        img 
+          width 85%
+          height 100%
     .search-list
       display flex
       flex-direction row

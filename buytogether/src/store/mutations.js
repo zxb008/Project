@@ -4,6 +4,8 @@ import {
   HOME_SHOP_LIST,
   RECOMMEND_SHOP_LIST,
   SEARCH_GOODS,
+  HISTORY_VALUES,
+  CLEAR_HISTORY_VALUES
 } from './mutation-types';
 
 export default {
@@ -26,5 +28,14 @@ export default {
   },
   [SEARCH_GOODS](state,{searchgoods}){
     state.searchgoods = searchgoods;
-  }
+  },
+  //搜索的历史记录
+  [HISTORY_VALUES](state,{value}){
+    state.historyvalues.push(value);
+  },
+
+  //清空历史记录
+  [ CLEAR_HISTORY_VALUES](state){
+    state.historyvalues.splice(0, state.historyvalues.length)
+  },
 }
