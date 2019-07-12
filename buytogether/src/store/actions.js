@@ -26,15 +26,15 @@ export default {
     //若 Promise 正常处理(fulfilled)，其回调的resolve函数参数作为 await 表达式的值，继续执行 async function。
     //若 Promise 处理异常(rejected)，await 表达式会把 Promise 的异常原因抛出。另外，如果 await 操作符后的表达式的值不是一个 Promise，则返回该值本身。
     //所以这里不需要.then()
-    const result = await getHomeCasual();
+    const data = await getHomeCasual();
     //commit 提交至于mutations里面，第一个参数是函数名，第二个参数是一个对象
-    context.commit(HOME_CASUAL,{homecasual: result.message.data});
+    context.commit(HOME_CASUAL,{homecasual: data.message});
   },
    // 2. 获取首页的导航
    //这里直接用了对象的解构语法
    async reqHomeNav({commit}) {
-    const result = await getHomeNav();
-    commit(HOME_NAV, {homenav: result.message.data})
+    const data = await getHomeNav();
+    commit(HOME_NAV, {homenav: data.message})
   },
   //获取首页板块的商品列表数据
   async reqHomeShopList({commit}){
@@ -53,12 +53,12 @@ export default {
     commit(SEARCH_GOODS,{searchgoods:result.message.data})
   },
   //获取搜索的历史记录
-  async reqHistoryValue({commit},param) {
+   reqHistoryValue({commit},param) {
     
     commit(HISTORY_VALUES,{value:param.value})
   },
   //清除历史记录
-  async clearHistoryValue({commit}) {
+   clearHistoryValue({commit}) {
     
     commit(CLEAR_HISTORY_VALUES)
   }
