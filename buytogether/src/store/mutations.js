@@ -24,7 +24,7 @@ export default {
   },
   //获取推荐板块的商品数据
   [RECOMMEND_SHOP_LIST](state,{recommendshoplist}){
-    state.recommendshoplist = recommendshoplist;
+    state.recommendshoplist = state.recommendshoplist.concat(recommendshoplist) ;
   },
   [SEARCH_GOODS](state,{searchgoods}){
     state.searchgoods = searchgoods;

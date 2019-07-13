@@ -16,11 +16,11 @@ function $http(url, params = {}, type = 'GET') {
       //data：{a: 1, b: 2, c: 9, d: 4, e: 5}
 			//console.log(Object.keys(data));["a", "b", "c", "d", "e"]
       Object.keys(params).forEach(function (ele) {
-        strParams += key + '=' + params[key] + '&'
+        strParams += ele + '=' + params[ele] + '&';
       })
       //清除strParams最后面那个&
       if (strParams !== '') {
-        strParams = strParams.substr(0,paramsStr.lastIndexOf('&'))
+        strParams = strParams.substr(0,strParams.lastIndexOf('&'))
       }
       //拼接完整的路径
       url += '?'+strParams;

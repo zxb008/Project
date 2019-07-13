@@ -17,7 +17,7 @@ import {
 
 
 export default {
-  //获取首页的轮播图片,那么这个函数应该是异步的，async表示这个函数是异步执行的
+  //获取首页的轮播图片,那么这个函数应该是异步的，async表示这个函数是异步执行的,同时函数的内部的执行语句也是异步，所以需要await
   //action里面的函数会默认有一个参数：context对象,当然也可以有第二个参数，是dispatch传递过来的参数
   async reqHomeCasual (context) {
     //执行getHomeCasual 会得到一个Promise对象
@@ -42,9 +42,15 @@ export default {
     commit(HOME_SHOP_LIST,{homeshoplist:result.message.goods_list})
   },
   //获取推荐板块的商品列表数据
-  async reqRecommendShopList({commit}){
-    const result  = await getRecommendShopList();
-    commit(RECOMMEND_SHOP_LIST,{recommendshoplist:result.message.data})
+  async reqRecommendShopList({commit},params){
+    const data  = await getRecommendShopList(params);
+    commit(RECOMMEND_SHOP_LIST,{recommendshoplist:data.message});
+
+     //这里我们设置一个延时器，是为了让页面显示有提示的效果，否则事件太短，效果不明显
+    // && 的意思就是：如果params.closeIndicator存在，就执行closeIndicator(),这和 || 的作用相反
+     setTimeout(() => {
+      params.closeIndicator && params.closeIndicator();
+     }, 1000);
   },
   
   //获取搜索板块的商品列表数据
@@ -52,8 +58,10 @@ export default {
     const result  = await getSearchGoods();
     commit(SEARCH_GOODS,{searchgoods:result.message.data})
   },
+
+
   //获取搜索的历史记录
-   reqHistoryValue({commit},param) {
+  reqHistoryValue({commit},param) {
     
     commit(HISTORY_VALUES,{value:param.value})
   },

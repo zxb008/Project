@@ -15,7 +15,7 @@ export const getHomeNav = ()=>$http(`${baseURL}/api/homenav`);
  export const getHomeShopList = ()=>$http(`${baseURL}/api/homeshoplist`);
 
  //请求推荐板块的商品列表数据
- export const getRecommendShopList = ()=>$http(`${baseURL}/api/recommendshoplist`);
+ export const getRecommendShopList = (params)=>$http(`${baseURL}/api/recommendshoplist`,params);
 
  //请求搜索板块商品的数据
  export const getSearchGoods = ()=>$http(`${baseURL}/api/searchgoods`);
