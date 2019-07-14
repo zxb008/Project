@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const conn = require('../db/db')
+const conn = require('../db/db');
+const svgCaptcha = require('svg-captcha');
+const sms_util = require('./../util/sms_util');
+// const md5 = require('blueimp-md5');
+
+
+let users = {}; // 用户信息
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -136,7 +142,7 @@ router.get('/api/homeshoplist', (req, res) => {
     })
     */
     setTimeout(function () {
-        const data = require('../data/shopList');
+        const data = require('../data/homeshoplist');
         res.json({ success_code: 200, message: data })
     }, 300);
 });
@@ -147,7 +153,7 @@ router.get('/api/homeshoplist', (req, res) => {
 router.get('/api/recommendshoplist', (req, res) => {
 
     // setTimeout(function () {
-    //     const data = require('../data/recommend');
+    //     const data = require('../data/recommendshoplist');
     //     res.json({ success_code: 200, message: data })
     // }, 10);
     let startIndex = req.query.startIndex || 1;
@@ -156,7 +162,7 @@ router.get('/api/recommendshoplist', (req, res) => {
     let sqlStr = `select * from recommendshoplist limit ${(startIndex-1)* size} , ${size}`;
     conn.query(sqlStr, (err, results) => {
         if (err)
-            return res.json({ err_code: 0, message: '数据请求失败' })
+             res.json({ err_code: 0, message: '数据请求失败' })
         else
             {
                 let newResults = []
@@ -188,6 +194,62 @@ router.get('/api/searchgoods', (req, res) => {
         const data = require('../data/search');
         res.json({ success_code: 200, message: data })
     }, 10);
+});
+
+
+/*
+ 一次性图形验证码
+*/
+// router.get('/api/captcha', (req, res) => {
+//     // 1. 生成随机验证码
+//     let captcha = svgCaptcha.create({
+//         color: true,
+//         noise: 3,
+//         ignoreChars: '0o1i',
+//         size: 4
+//     });
+//     // console.log(captcha.text);
+
+//     // 2. 保存,session的作用是保存会话
+//     req.session.captcha = captcha.text.toLocaleLowerCase();
+//     console.log(req.session);
+
+//     // 3. 返回客户端
+//     res.type('svg');
+//     res.send(captcha.data);
+// });
+
+
+
+
+
+
+// 发送短信验证码
+router.get('/api/sendcode', (req, res) => {
+    //得到电话号码
+    let phone = req.query.phone;
+    //调用sms_util里面的的方法随机生成6位短信验证码
+    let code = sms_util.randomCode(6);
+
+    //调用sms_util里面的的方法发送短信
+    // sms_util.sendCode(phone, code, function (success) {
+    //    if (success) {
+    //     //短信发送成功
+    //     res.json({ success_code: 200, message: '验证码获取成功' })
+    //    } else {
+    //     //短信发送失败
+    //      res.json({ err_code: 0, message: '验证码获取失败' })
+    //    }
+    // })
+
+    //由于这种短信发送是要收费的，所以我们在这里模拟
+    //1.成功
+    //这一步的作用当不同的客户端发出验证码请求的时候，在user对象中存入多对的：phone=>code,从而当用户点击登录的时候进行验证
+    //虽然session也可以为每个客户端保存各自的信息，但是这里不保存在session的原因是：session具有时效性
+    users[phone] = code;
+    res.json({ success_code: 200, message: code })
+    //2.失败
+    // res.json({ err_code: 0, message: '验证码获取失败' })
 });
 
 module.exports = router;
