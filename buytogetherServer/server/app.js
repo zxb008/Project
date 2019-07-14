@@ -7,6 +7,8 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
+const session = require('express-session');
+
 var app = express();
 
 app.all("*", function(req, res, next) {
@@ -29,6 +31,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret :  '123456', // 对session id 相关的cookie 进行签名
+  cookie : {maxAge : 1000 * 60 * 60 * 24}, // 设置 session 的有效时间，单位毫秒},
+  resave : false,
+  saveUninitialized: true, // 是否保存未初始化的会话
+}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

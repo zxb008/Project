@@ -14,7 +14,6 @@
             type="number"
             placeholder="电话号码"
             autofocus="autofocus"
-            maxlength="11"
             v-model="phone"
           />
           <div @click="clearPhone">
@@ -23,7 +22,7 @@
         </div>
         <div class="conSecond">
           <label for="code">验证码</label>
-          <input id="code" type="number" placeholder="验证码" maxlength="6" v-model="code" />
+          <input id="code" type="number" placeholder="验证码" v-model="code" />
           <button
             v-if="showButton"
             :style="showSendCode ? {color:'red'}:{}"
@@ -37,7 +36,7 @@
       <button>同意协议并登陆</button>
       <span>
         我已经阅读并同意
-        <a href="#">服务协议与隐私政策</a>
+        <a href="">服务协议与隐私政策</a>
       </span>
     </div>
   </div>
@@ -75,6 +74,13 @@ export default {
     sendCode() {
       //输入的号码正确，可以发送验证码
       if (this.showSendCode) {
+        //发送验证码，需要一些时间过程
+        // if (false) {
+        //   //在这个时间段中没有收到
+        //   //出现菊花图
+        // } else {
+          
+        // }
         this.showButton = false;
         this.time = 5;
         let timeId = setInterval(() => {
