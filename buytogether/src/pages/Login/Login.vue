@@ -44,6 +44,9 @@
 
 <script>
 import { MessageBox } from 'mint-ui';
+import { Indicator } from 'mint-ui';
+import { Toast } from 'mint-ui';
+import { getSendCode } from '../../api/index';//获取验证码的接口
 export default {
   name: "login",
   data() {
@@ -71,16 +74,10 @@ export default {
     clearPhone() {
       this.phone = "";
     },
-    sendCode() {
+  //这个方法应该是异步的，因为这个方法里面需要去服务端获取验证码，验证码这个并没有放在vuex的状态管理中
+  async sendCode() {
       //输入的号码正确，可以发送验证码
       if (this.showSendCode) {
-        //发送验证码，需要一些时间过程
-        // if (false) {
-        //   //在这个时间段中没有收到
-        //   //出现菊花图
-        // } else {
-          
-        // }
         this.showButton = false;
         this.time = 5;
         let timeId = setInterval(() => {
@@ -90,6 +87,22 @@ export default {
             this.showButton = true;
           }
         }, 1000);
+        Indicator.open();
+        //这里为了显示效果，服务器已经设置了延迟5秒发送验证码，
+        let result = await getSendCode({phone:this.phone});
+         Indicator.close();
+
+        if(result.err_code && result.err_code === 0){ 
+          // 获取验证码失败，在服务端设置了发送验证码一定是成功的，所以这一步是不会执行的
+          Toast({
+            message:result.message,
+            position: 'center',
+            duration: 3000
+          });
+        }else{
+          MessageBox('验证码', result.message);
+        }
+
       }else{
       //输入的号码错误，提示重新输入
       MessageBox('提示', '号码错误，请你重新输入');

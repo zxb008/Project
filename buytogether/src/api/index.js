@@ -21,5 +21,5 @@ export const getHomeNav = ()=>$http(`${baseURL}/api/homenav`);
  export const getSearchGoods = ()=>$http(`${baseURL}/api/searchgoods`);
 
  //请求登录时候获取验证码
- export const getSendCode = ()=>$http(`${baseURL}/api/sendcode`);
+ export const getSendCode = (params)=>$http(`${baseURL}/api/sendcode`,params);
 
