@@ -243,10 +243,10 @@ router.get('/api/sendcode', (req, res) => {
     // })
 
     //由于这种短信发送是要收费的，所以我们在这里模拟
-    //1.成功
+    //1.成功，这里我们设置发送一定是成功的
+
     //这一步的作用当不同的客户端发出验证码请求的时候，在user对象中存入多对的：phone=>code,从而当用户点击登录的时候进行验证
     //虽然session也可以为每个客户端保存各自的信息，但是这里不保存在session的原因是：session具有时效性
-    
     setTimeout(() => {
         users[phone] = code;
         res.json({ success_code: 200, message: code })
