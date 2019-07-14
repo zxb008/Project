@@ -66,7 +66,10 @@ export default {
         //因为这里是箭头函数，所以this指向当前的上下文环境
         //maxScrollY可滑动的最长距离，负值
         if (pos.y + 30 < this.scroll.maxScrollY) {
-          Indicator.open("正在全力加载中...");
+          Indicator.open({
+               text: '正在全力为你加载中...',
+               spinnerType: 'fading-circle'
+              });
           this.$store.dispatch("reqRecommendShopList", {
             startIndex: this.startIndex,
             size: this.size,
@@ -85,7 +88,10 @@ export default {
     }
   },
   mounted() {
-    Indicator.open("正在全力为你加载中...");
+    Indicator.open({
+       text: '正在全力为你加载中...',
+       spinnerType: 'fading-circle'
+       });
     // 通过dispatch执行action中的reqHomeCasual()函数来从后端请求轮播的图片存到state里面
     this.$store.dispatch("reqRecommendShopList", {
       startIndex: this.startIndex,

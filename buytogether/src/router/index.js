@@ -5,6 +5,7 @@ import Recommend from '../pages/Recommend/Recommend'
 import Chat from '../pages/Chat/Chat'
 import Search from '../pages/Search/Search'
 import Me from '../pages/Me/Me'
+import Login from '../pages/Login/Login'
 
 import Hot from '../pages/Home/Children/Hot/Hot'
 import WomanClothes from '../pages/Home/Children/WomanClothes'
@@ -30,36 +31,47 @@ export default new Router({
       component: Home,
       children:[
         { path: '/home', redirect:'/home/hot'},
-        { path: 'hot', component: Hot},
-        { path: 'womanClothes', component: WomanClothes},
-        { path: 'departmentStore', component: DepartmentStore},
-        { path: 'shopBag', component: ShopBag},
-        { path: 'foods', component: Foods},
-        { path: 'montherBaby', component: MontherBaby},
-        { path: 'underwear', component: Underwear},
-        { path: 'electricAppliance', component: ElectricAppliance},
-        { path: 'manClothes', component: ManClothes},
+        // meta是route的一个对象属性，用来存值，可以在对应的页面上取出来
+        { path: 'hot', component: Hot,meta:{showTabBar:true}},
+        { path: 'womanClothes', component: WomanClothes,meta:{showTabBar:true}},
+        { path: 'departmentStore', component: DepartmentStore,meta:{showTabBar:true}},
+        { path: 'shopBag', component: ShopBag,meta:{showTabBar:true}},
+        { path: 'foods', component: Foods,meta:{showTabBar:true}},
+        { path: 'montherBaby', component: MontherBaby,meta:{showTabBar:true}},
+        { path: 'underwear', component: Underwear,meta:{showTabBar:true}},
+        { path: 'electricAppliance', component: ElectricAppliance,meta:{showTabBar:true}},
+        { path: 'manClothes', component: ManClothes,meta:{showTabBar:true}},
       ]
     },
     {
       path: '/recommend',
       name:'recommend',
-      component: Recommend
+      component: Recommend,
+      meta: {showTabBar: true}
     },
     {
       path: '/search',
       name:'search',
-      component: Search
+      component: Search,
+      meta:{showTabBar:true}
     },
     {
       path: '/chat',
       name:'chat',
-      component: Chat
+      component: Chat,
+      meta:{showTabBar:true}
     },
     {
       path: '/me',
       name:'me',
-      component: Me
+      component: Me,
+      meta:{showTabBar:true}
+    },
+    {
+      path: '/login',
+      name:'login',
+      component: Login,
+      meta:{showTabBar:false}
     }
   ]
 })
