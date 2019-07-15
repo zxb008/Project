@@ -16,11 +16,11 @@ router.get('/', function (req, res, next) {
 //向数据库中批量插入数据
 
 // //1.得到一个数据的数组，数组中的元素是商品对象，保存每个商品的信息
-// let recommendShoplistArr = require('../data/recommend').data;
+// let recommendShoplistArr = require('../data/recommendshoplist').data;
 // //2.定义一个api
 // router.get('/api/insertRecommend', function (req, res, next) {
 //     let array = [];
-    
+
 //     recommendShoplistArr.forEach((element, index) => {
 //         //新建一个数组，把每个商品对象的数据保存到这个数组
 //         let array_item = [];
@@ -58,7 +58,7 @@ router.get('/', function (req, res, next) {
 // //2.定义一个api
 // router.get('/api/insertshopList', function (req, res, next) {
 //     let array = [];
-    
+
 //     shopListtArr.forEach((element, index) => {
 //         //新建一个数组，把每个商品对象的数据保存到这个数组
 //         let array_item = [];
@@ -108,7 +108,7 @@ router.get('/api/homecasual', (req, res) => {
             //从数据中查找后返回的结果results是一个数组，数组元素是对象
             // console.log();
             res.json({ success_code: 200, message: results })
-           
+
     })
     //    const data = require('../data/homecasual');
     //    res.json({success_code: 200, message: data})
@@ -159,20 +159,19 @@ router.get('/api/recommendshoplist', (req, res) => {
     let startIndex = req.query.startIndex || 1;
     let size = req.query.size || 20;
 
-    let sqlStr = `select * from recommendshoplist limit ${(startIndex-1)* size} , ${size}`;
+    let sqlStr = `select * from recommendshoplist limit ${(startIndex - 1) * size} , ${size}`;
     conn.query(sqlStr, (err, results) => {
         if (err)
-             res.json({ err_code: 0, message: '数据请求失败' })
-        else
-            {
-                let newResults = []
-                results.forEach((ele,index) => {
-                    ele.babels =  ele.babels.split(',')
-                    newResults.push(ele)
-                });
-                // console.log(results);
-                res.json({ success_code: 200, message: newResults })
-            }
+            res.json({ err_code: 0, message: '数据请求失败' })
+        else {
+            let newResults = []
+            results.forEach((ele, index) => {
+                ele.babels = ele.babels.split(',')
+                newResults.push(ele)
+            });
+            // console.log(results);
+            res.json({ success_code: 200, message: newResults })
+        }
     })
 });
 
@@ -250,7 +249,7 @@ router.get('/api/sendcode', (req, res) => {
     setTimeout(() => {
         users[phone] = code;
         res.json({ success_code: 200, message: code })
-    }, 5000);
+    }, 3000);
     //2.失败
     // res.json({ err_code: 0, message: '验证码获取失败' })
 });
@@ -265,55 +264,62 @@ router.post('/api/login_code', (req, res) => {
     const phone = req.body.phone;
     const code = req.body.code;
 
+
     // 2. 验证验证码是否正确
-     if(users[phone] !== code){
-         res.json({err_code: 0, message: '验证码不正确!'});
-     }
+    if (users[phone] !== code) {
+        //打印
+        console.log(phone, users[phone], code);
+        res.json({ err_code: 0, message: '验证码不正确!' });
+    } else {
+        // 3. 查询数据
+        delete users[phone];
 
-    // 3. 查询数据
-    delete  users[phone];
+        let sqlStr = `SELECT * FROM users WHERE user_phone =${phone} LIMIT 1 `;
 
-    let sqlStr = "SELECT * FROM users WHERE user_phone = '" + phone + "' LIMIT 1";
+        conn.query(sqlStr, (error, results, fields) => {
+            if (error) {
+                res.json({ err_code: 0, message: '请求数据失败' });
+            } else {
+                // console.log(results);
+                results = JSON.parse(JSON.stringify(results));
+                // console.log(results);
 
-    conn.query(sqlStr, (error, results, fields) => {
-        if (error) {
-            res.json({err_code: 0, message: '请求数据失败'});
-        } else {
-            results = JSON.parse(JSON.stringify(results));
-            if (results[0]) {  // 用户已经存在
-                // console.log(results[0]);
-                req.session.userId = results[0].id;
-                // 返回数据给客户端
-                res.json({
-                    success_code: 200,
-                    message: {id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone}
-                });
-            } else { // 新用户
-                const addSql = "INSERT INTO users(user_name, user_phone) VALUES (?, ?)";
-                const addSqlParams = [phone, phone];
-                conn.query(addSql, addSqlParams, (error, results, fields) => {
-                    results = JSON.parse(JSON.stringify(results));
-                    // console.log(results);
-                    if(!error){
-                        req.session.userId = results.insertId;
-                        let sqlStr = "SELECT * FROM users WHERE id = '" + results.insertId + "' LIMIT 1";
-                        conn.query(sqlStr, (error, results, fields) => {
-                            if (error) {
-                                res.json({err_code: 0, message: '请求数据失败'});
-                            } else {
-                                results = JSON.parse(JSON.stringify(results));
-                                // 返回数据给客户端
-                                res.json({
-                                    success_code: 200,
-                                    message: {id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone}
-                                });
-                            }
-                        });
-                    }
-                });
+                if (results[0]) {  // 用户已经存在
+                    // console.log(results[0]);
+                    req.session.userId = results[0].id;
+                    // 返回数据给客户端
+                    res.json({
+                        success_code: 200,
+                        message: { id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone }
+                    });
+                }else { // 新用户
+                    //这里需要注意在建用户表的时候，user_name，user_phone的类型要设置为varchar类型，因为客户端传过来的phone的类型是字符串类型
+                    const addSql = "INSERT INTO users(`user_name`, `user_phone`) VALUES (?,?)";
+                    // const addSqlParams = [phone, phone];
+                    conn.query(addSql, [phone, phone], (error, results, fields) => {
+                        results = JSON.parse(JSON.stringify(results));
+                        // console.log(results);
+                        if (!error) {
+                            req.session.userId = results.insertId;
+                            let sqlStr = "SELECT * FROM users WHERE id = '" + results.insertId + "' LIMIT 1";
+                            conn.query(sqlStr, (error, results, fields) => {
+                                if (error) {
+                                    res.json({ err_code: 0, message: '请求数据失败' });
+                                } else {
+                                    results = JSON.parse(JSON.stringify(results));
+                                    // 返回数据给客户端
+                                    res.json({
+                                        success_code: 200,
+                                        message: { id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
             }
-        }
-    });
+        });
+    }
 
 });
 
