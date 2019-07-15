@@ -1,23 +1,41 @@
 <template>
   <div class="beforelogin">
     <div class="tou">
-      <img v-if="user" src="../images/new.png" alt="">
-      <img else src="../images/tou.png" alt="">
+      <img v-if="user.id" src="../images/new.png" alt />
+      <img v-else src="../images/tou.png" alt />
     </div>
     <div class="bot">
-      <button v-if="user">{{user.phone}}</button>
-      <router-link else  tag="button" to="/login">点击登陆</router-link>
+      <div class="bot-login-out" v-if="user.id">
+        <div class="bot-login">
+          <span>{{user.user_phone  | phoneFilter }}</span>
+          <img src="../images/phone.png" alt />
+        </div>
+        <div><span>勋章墙></span></div>
+      </div>
+
+      <router-link v-else tag="button" to="/login">点击登陆</router-link>
     </div>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 export default {
-computed: {
-  ...mapState(['user'])
-},
-}
+  computed: {
+    ...mapState(["user"])
+  },
+  filters:{
+    phoneFilter (phone) {
+
+       if (!phone) return ''
+      let phoneArr = phone.split('')
+      for (let i = 3; i < 7; i++) {
+        phoneArr[i] = '*';
+      }
+      return phoneArr.join('')
+    }
+  }
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -42,6 +60,27 @@ computed: {
     flex 7
     display flex
     align-items center
+    .bot-login-out
+      width 45%
+      height 60%
+      .bot-login
+        height 65%
+        width 100%
+        display flex
+        align-items center
+        justify-content flex-start
+        span
+          font-weight 700
+          color #0C0C0C
+        img
+          height 60%
+      div  
+        height 35%
+        width 100%
+        font-size 13px
+        color #D3CFCF
+        display flex
+        align-items center
     button
       font-weight 700
       color #EB4848

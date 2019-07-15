@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from "vuex";
 import { MessageBox } from "mint-ui";
 import { Indicator } from "mint-ui";
 import { Toast } from "mint-ui";
@@ -54,7 +54,7 @@ export default {
     };
   },
   computed: {
-    ...mapActions(['setUser']),//vuex里面存入用户信息
+   
     showImage() {
       if (this.phone === "") {
         return false;
@@ -71,7 +71,7 @@ export default {
     }
   },
   methods: {
-
+    ...mapActions(["setUser"]), //vuex里面存入用户信息
     clearPhone() {
       this.phone = "";
     },
@@ -90,7 +90,7 @@ export default {
         }, 1000);
         Indicator.open();
         //这里为了显示效果，服务器已经设置了延迟5秒发送验证码，
-        let result = await getSendCode({ phone: this.phone });//请求验证码接口
+        let result = await getSendCode({ phone: this.phone }); //请求验证码接口
         Indicator.close();
 
         if (result.err_code && result.err_code === 0) {
@@ -130,7 +130,7 @@ export default {
         return;
       }
 
-      let result = await loginCode({ phone: this.phone, code: this.code });//登陆验证接口
+      let result = await loginCode({ phone: this.phone, code: this.code }); //登陆验证接口
       // res.json({
       //   success_code: 200,
       //   message: {
@@ -140,27 +140,27 @@ export default {
       //   }
       // });
 
-     //判断是否登录成功
+      //判断是否登录成功
       if (result.success_code === 200) {
         //得到用户信息
         this.userInfo = result.message;
-       //把用户的信息放入vuex里面，因为其他页面也要使用用户信息
-      //this.$store.dispatch('setUser',this.userInfo)
-      this.setUser(this.userInfo)
-      
+        //把用户的信息放入vuex里面，因为其他页面也要使用用户信息
+        //this.$store.dispatch('setUser',this.userInfo)
+        this.setUser(this.userInfo);
+
         Indicator.open();
         //这里为了显示效果，设置延迟两秒登录，
         setTimeout(() => {
           Indicator.close();
           // this.$router.replace("/me");
-           this.$router.back();
+          this.$router.back();
         }, 2000);
       } else {
         Indicator.open();
         //这里为了显示效果，设置延迟两秒，
         setTimeout(() => {
           Indicator.close();
-         Toast("登陆失败, 手机号或验证不正确");
+          Toast("登陆失败, 手机号或验证不正确");
         }, 2000);
       }
     }

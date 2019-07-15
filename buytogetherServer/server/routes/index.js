@@ -229,7 +229,7 @@ router.get('/api/sendcode', (req, res) => {
     let phone = req.query.phone;
     //调用sms_util里面的的方法随机生成6位短信验证码
     let code = sms_util.randomCode(6);
-
+    
     //调用sms_util里面的的方法发送短信
     // sms_util.sendCode(phone, code, function (success) {
     //    if (success) {
@@ -263,12 +263,10 @@ router.post('/api/login_code', (req, res) => {
     // 1. 获取数据
     const phone = req.body.phone;
     const code = req.body.code;
-
-
+    //打印
+    console.log(phone, users[phone], code);
     // 2. 验证验证码是否正确
     if (users[phone] !== code) {
-        //打印
-        console.log(phone, users[phone], code);
         res.json({ err_code: 0, message: '验证码不正确!' });
     } else {
         // 3. 查询数据
