@@ -3,7 +3,7 @@ const router = express.Router();
 const conn = require('../db/db');
 const svgCaptcha = require('svg-captcha');
 const sms_util = require('./../util/sms_util');
-// const md5 = require('blueimp-md5');
+// const md5 = require('blueimp-md5');//把数据加密以后再存入数据库
 
 
 let users = {}; // 用户信息
@@ -285,21 +285,22 @@ router.post('/api/login_code', (req, res) => {
                 // console.log(results);
 
                 if (results[0]) {  // 用户已经存在
-                    // console.log(results[0]);
+                    // 这里是为了下面/api/user_info接口中根据session中的用户id获取用户信息
                     req.session.userId = results[0].id;
                     // 返回数据给客户端
                     res.json({
                         success_code: 200,
                         message: { id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone }
                     });
-                }else { // 新用户
+                } else { // 新用户
                     //这里需要注意在建用户表的时候，user_name，user_phone的类型要设置为varchar类型，因为客户端传过来的phone的类型是字符串类型
                     const addSql = "INSERT INTO users(`user_name`, `user_phone`) VALUES (?,?)";
-                    // const addSqlParams = [phone, phone];
+                  
                     conn.query(addSql, [phone, phone], (error, results, fields) => {
                         results = JSON.parse(JSON.stringify(results));
-                        // console.log(results);
+                       
                         if (!error) {
+                             // 这里是为了下面/api/user_info接口中根据session中的用户id获取用户信息
                             req.session.userId = results.insertId;
                             let sqlStr = "SELECT * FROM users WHERE id = '" + results.insertId + "' LIMIT 1";
                             conn.query(sqlStr, (error, results, fields) => {
@@ -323,5 +324,103 @@ router.post('/api/login_code', (req, res) => {
 
 });
 
+/*
+*  根据session中的用户id获取用户信息
+* */
+router.get('/api/user_info', (req, res) => {
+    // 1.0 获取参数
+    let userId = req.session.userId;
+    // 1.1 数据库查询的语句
+    let sqlStr = "SELECT * FROM pdd_user_info WHERE id = '" + userId + "' LIMIT 1";
+    conn.query(sqlStr, (error, results, fields) => {
+        if (error) {
+            res.json({err_code: 0, message: '请求数据失败'});
+        } else {
+            results = JSON.parse(JSON.stringify(results));
+            if(!results[0]){
+                delete req.session.userId;
+                res.json({error_code: 1, message: '请先登录'});
+            }else {
+                // 返回数据给客户端
+                res.json({
+                    success_code: 200,
+                    message: {id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone}
+                });
+            }
+        }
+    });
+});
+
+
+
+
+/**
+ * 用户名和密码登录
+ */
+// router.post('/api/login_pwd', (req, res) => {
+//     // 1. 获取数据
+//     const user_name = req.body.name;
+//     const user_pwd = md5(req.body.pwd);
+//     const captcha = req.body.captcha.toLowerCase();
+
+//     // console.log(captcha, req.session.captcha, req.session);
+
+//     // 2. 验证图形验证码是否正确
+//     if (captcha !== req.session.captcha) {
+//         res.json({ err_code: 0, message: '图形验证码不正确!' });
+//         return;
+//     } else {
+//         delete req.session.captcha;
+
+
+//         // 3. 查询数据
+//         let sqlStr = "SELECT * FROM pdd_user_info WHERE user_name = '" + user_name + "' LIMIT 1";
+//         conn.query(sqlStr, (error, results, fields) => {
+//             if (error) {
+//                 res.json({ err_code: 0, message: '用户名不正确!' });
+//             } else {
+//                 results = JSON.parse(JSON.stringify(results));
+//                 if (results[0]) {  // 用户已经存在
+//                     // 验证密码是否正确
+//                     if (results[0].user_pwd !== user_pwd) {
+//                         res.json({ err_code: 0, message: '密码不正确!' });
+//                     } else {
+//                         req.session.userId = results[0].id;
+//                         // 返回数据给客户端
+//                         res.json({
+//                             success_code: 200,
+//                             message: { id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone },
+//                             info: '登录成功!'
+//                         });
+//                     }
+//                 } else { // 新用户
+//                     const addSql = "INSERT INTO pdd_user_info(user_name, user_pwd) VALUES (?, ?)";
+//                     const addSqlParams = [user_name, user_pwd];
+//                     conn.query(addSql, addSqlParams, (error, results, fields) => {
+//                         results = JSON.parse(JSON.stringify(results));
+//                         // console.log(results);
+//                         if (!error) {
+//                             req.session.userId = results.insertId;
+//                             let sqlStr = "SELECT * FROM pdd_user_info WHERE id = '" + results.insertId + "' LIMIT 1";
+//                             conn.query(sqlStr, (error, results, fields) => {
+//                                 if (error) {
+//                                     res.json({ err_code: 0, message: '请求数据失败' });
+//                                 } else {
+//                                     results = JSON.parse(JSON.stringify(results));
+//                                     // 返回数据给客户端
+//                                     res.json({
+//                                         success_code: 200,
+//                                         message: { id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone }
+//                                     });
+//                                 }
+//                             });
+//                         }
+//                     });
+//                 }
+//             }
+//             console.log(req.session);
+//         });
+//     }
+// });
 
 module.exports = router;

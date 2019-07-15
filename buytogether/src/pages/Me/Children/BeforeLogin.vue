@@ -1,17 +1,22 @@
 <template>
   <div class="beforelogin">
     <div class="tou">
-      <img src="../images/tou.png" alt="">
+      <img v-if="user" src="../images/new.png" alt="">
+      <img else src="../images/tou.png" alt="">
     </div>
     <div class="bot">
-      <router-link tag="button" to="/login">点击登陆</router-link>
+      <button v-if="user">{{user.phone}}</button>
+      <router-link else  tag="button" to="/login">点击登陆</router-link>
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
-
+computed: {
+  ...mapState(['user'])
+},
 }
 </script>
 
