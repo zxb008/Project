@@ -12,7 +12,8 @@ import {
   RECOMMEND_SHOP_LIST,
   SEARCH_GOODS,
   HISTORY_VALUES,
-  CLEAR_HISTORY_VALUES
+  CLEAR_HISTORY_VALUES,
+  SET_USER
 } from './mutation-types'
 
 
@@ -60,14 +61,20 @@ export default {
   },
 
 
-  //获取搜索的历史记录
+  //获取搜索的历史记录,这个操作不需要异步
   reqHistoryValue({commit},param) {
     
     commit(HISTORY_VALUES,{value:param.value})
   },
-  //清除历史记录
+  //清除历史记录,这个操作不需要异步
    clearHistoryValue({commit}) {
     
     commit(CLEAR_HISTORY_VALUES)
-  }
+  },
+
+  //用户成功登陆以后，把用户信息放入vuex里面,这个操作不需要异步
+   setUser({commit},params) {
+   
+    commit(SET_USER,params)
+  },
 }

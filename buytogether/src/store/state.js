@@ -4,5 +4,6 @@ export default {
   homeshoplist:[],
   recommendshoplist:[],
   searchgoods:[],
-  historyvalues:[]
+  historyvalues:[],
+  user:{}
 }

@@ -5,7 +5,8 @@ import {
   RECOMMEND_SHOP_LIST,
   SEARCH_GOODS,
   HISTORY_VALUES,
-  CLEAR_HISTORY_VALUES
+  CLEAR_HISTORY_VALUES,
+  SET_USER
 } from './mutation-types';
 
 export default {
@@ -38,4 +39,8 @@ export default {
   [ CLEAR_HISTORY_VALUES](state){
     state.historyvalues.splice(0, state.historyvalues.length)
   },
+  //用户成功登陆以后，vuex存入用户信息
+  [SET_USER](state,params){
+    state.user = params;
+  }
 }

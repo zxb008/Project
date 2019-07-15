@@ -23,3 +23,6 @@ export const getHomeNav = ()=>$http(`${baseURL}/api/homenav`);
  //请求登录时候获取验证码
  export const getSendCode = (params)=>$http(`${baseURL}/api/sendcode`,params);
 
+ //登录时候进行验证
+ export const loginCode = (params)=>$http(`${baseURL}/api/login_code`,params,'POST');
+
