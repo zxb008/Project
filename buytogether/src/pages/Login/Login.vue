@@ -79,7 +79,7 @@ export default {
       //输入的号码正确，可以发送验证码
       if (this.showSendCode) {
         this.showButton = false;
-        this.time = 5;
+        this.time = 20;
         let timeId = setInterval(() => {
           this.time--;
           if (this.time === 0) {
@@ -96,7 +96,7 @@ export default {
           // 获取验证码失败，在服务端设置了发送验证码一定是成功的，所以这一步是不会执行的
           Toast({
             message:result.message,
-            position: 'center',
+            position: 'middle',
             duration: 3000
           });
         }else{
@@ -105,7 +105,11 @@ export default {
 
       }else{
       //输入的号码错误，提示重新输入
-      MessageBox('提示', '号码错误，请你重新输入');
+          Toast({
+            message:'号码错误，请你重新输入',
+            position: 'middle',
+            duration: 3000
+          });
       }
     }
   }
