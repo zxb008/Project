@@ -11,7 +11,11 @@ export default {
   name: 'App',
   components:{
     TabBar
-  }
+  },
+  mounted() {
+    //得到用户信息，实现自动登录
+    this.$store.dispatch('requser');
+  },
 }
 </script>
 

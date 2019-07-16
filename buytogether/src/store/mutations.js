@@ -6,7 +6,8 @@ import {
   SEARCH_GOODS,
   HISTORY_VALUES,
   CLEAR_HISTORY_VALUES,
-  SET_USER
+  SET_USER,
+  GET_USER
 } from './mutation-types';
 
 export default {
@@ -41,6 +42,10 @@ export default {
   },
   //用户成功登陆以后，vuex存入用户信息
   [SET_USER](state,params){
+    state.user = params;
+  },
+  //获取用户信息，实现自动登录
+  [GET_USER](state,params){
     state.user = params;
   }
 }

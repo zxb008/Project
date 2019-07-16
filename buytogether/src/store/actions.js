@@ -3,7 +3,8 @@ import {
   getHomeNav,
   getHomeShopList,
   getRecommendShopList,
-  getSearchGoods
+  getSearchGoods,
+  autologingetuser
 } from '../api/index'
 import {
   HOME_CASUAL,
@@ -13,7 +14,8 @@ import {
   SEARCH_GOODS,
   HISTORY_VALUES,
   CLEAR_HISTORY_VALUES,
-  SET_USER
+  SET_USER,
+  GET_USER
 } from './mutation-types'
 
 
@@ -76,5 +78,18 @@ export default {
    setUser({commit},params) {
    
     commit(SET_USER,params)
+  },
+
+  //获取用户信息来实现自动登录
+  async requser({commit}) {
+    const result  = await autologingetuser();
+    if (result.success_code === 200) {
+      //用户之前登录了，同时session没有过期，成功得到之前该用户的信息
+      commit(GET_USER,result.message)
+    } else {
+      //用户之前没有登录了，或者session过期，没有得到之前该用户的信息
+      commit(GET_USER,{})
+    }
+    
   },
 }

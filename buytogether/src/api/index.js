@@ -20,9 +20,12 @@ export const getHomeNav = ()=>$http(`${baseURL}/api/homenav`);
  //请求搜索板块商品的数据
  export const getSearchGoods = ()=>$http(`${baseURL}/api/searchgoods`);
 
- //请求登录时候获取验证码
+ //请求登录时候获取验证码，没有数据放入vuex中，所以actions中无需调用这个接口
  export const getSendCode = (params)=>$http(`${baseURL}/api/sendcode`,params);
 
- //登录时候进行验证
- export const loginCode = (params)=>$http(`${baseURL}/api/login_code`,params,'POST');
+ //登录时候进行验证，没有数据放入vuex中，所以actions中无需调用这个接口
+ export const loginCode = (params)=>$http(`${baseURL}/api/logincode`,params,'POST');
+
+ //根据服务端的session保存的id（id在用户登录时候保存了），获取用户信息来实现自动登录,在app.vue中调用
+ export const autologingetuser = ()=>$http(`${baseURL}/api/autologingetuser`);
 
