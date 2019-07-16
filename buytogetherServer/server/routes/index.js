@@ -249,7 +249,7 @@ router.get('/api/sendcode', (req, res) => {
     setTimeout(() => {
         users[phone] = code;
         res.json({ success_code: 200, message: code })
-    }, 3000);
+    }, 2000);
     //2.失败
     // res.json({ err_code: 0, message: '验证码获取失败' })
 });
@@ -283,7 +283,7 @@ router.post('/api/logincode', (req, res) => {
                 // console.log(results);
 
                 if (results[0]) {  // 用户已经存在
-                    // 这里是为了下面/api/user_info接口中根据session中的用户id获取用户信息
+                    // 这里是为了下面/api/autologingetuser自动接口中根据session中的用户id获取用户信息
                     req.session.userId = results[0].id;
                     // console.log(req.session.userId);
                     // 返回数据给客户端
@@ -299,7 +299,7 @@ router.post('/api/logincode', (req, res) => {
                         results = JSON.parse(JSON.stringify(results));
                        
                         if (!error) {
-                             // 这里是为了下面/api/user_info接口中根据session中的用户id获取用户信息
+                             // 这里是为了下面/api/autologingetuser自动接口中根据session中的用户id获取用户信息
                             req.session.userId = results.insertId;
                             let sqlStr = "SELECT * FROM users WHERE id = '" + results.insertId + "' LIMIT 1";
                             conn.query(sqlStr, (error, results, fields) => {
