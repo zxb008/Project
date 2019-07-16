@@ -259,7 +259,7 @@ router.get('/api/sendcode', (req, res) => {
 /*
   手机验证码登录
 */
-router.post('/api/login_code', (req, res) => {
+router.post('/api/logincode', (req, res) => {
     // 1. 获取数据
     const phone = req.body.phone;
     const code = req.body.code;
@@ -285,6 +285,7 @@ router.post('/api/login_code', (req, res) => {
                 if (results[0]) {  // 用户已经存在
                     // 这里是为了下面/api/user_info接口中根据session中的用户id获取用户信息
                     req.session.userId = results[0].id;
+                    // console.log(req.session.userId);
                     // 返回数据给客户端
                     res.json({
                         success_code: 200,
@@ -322,32 +323,7 @@ router.post('/api/login_code', (req, res) => {
 
 });
 
-/*
-*  根据session中的用户id获取用户信息
-* */
-router.get('/api/user_info', (req, res) => {
-    // 1.0 获取参数
-    let userId = req.session.userId;
-    // 1.1 数据库查询的语句
-    let sqlStr = "SELECT * FROM pdd_user_info WHERE id = '" + userId + "' LIMIT 1";
-    conn.query(sqlStr, (error, results, fields) => {
-        if (error) {
-            res.json({err_code: 0, message: '请求数据失败'});
-        } else {
-            results = JSON.parse(JSON.stringify(results));
-            if(!results[0]){
-                delete req.session.userId;
-                res.json({error_code: 1, message: '请先登录'});
-            }else {
-                // 返回数据给客户端
-                res.json({
-                    success_code: 200,
-                    message: {id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone}
-                });
-            }
-        }
-    });
-});
+
 
 
 
@@ -420,5 +396,38 @@ router.get('/api/user_info', (req, res) => {
 //         });
 //     }
 // });
+
+
+
+/*
+   这个接口营应该在app.vue中调用
+*  根据前面登录已经保存的在session中的用户id获取用户信息，来实现自动登录
+* */
+router.get('/api/autologingetuser', (req, res) => {
+    // 1.0 获取参数
+    let userId = req.session.userId;
+    // console.log(userId);
+    // 1.1 数据库查询的语句
+    let sqlStr = "SELECT * FROM users WHERE id = '" + userId + "' LIMIT 1";
+    conn.query(sqlStr, (error, results, fields) => {
+        if (error) {
+            res.json({err_code: 0, message: '请求数据失败'});
+        } else {
+            results = JSON.parse(JSON.stringify(results));
+           
+            if(!results[0]){
+                //之前没有登录或者session已经过期，那么是找不到用户信息
+                delete req.session.userId;//注意这里
+                res.json({error_code: 1, message: '请先登录'});
+            }else {
+                // 返回数据给客户端
+                res.json({
+                    success_code: 200,
+                    message: {id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone}
+                });
+            }
+        }
+    });
+});
 
 module.exports = router;
