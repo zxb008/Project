@@ -89,10 +89,11 @@ export default {
           }
         }, 1000);
         Indicator.open();
-        //这里为了显示效果，服务器已经设置了延迟5秒发送验证码，
+        //这里为了显示效果，服务器设置了延迟2秒，不在这里设置延迟的原因是，这个函数是异步的，同时下面还有其他的操作
         let result = await getSendCode({ phone: this.phone }); //请求验证码接口
+       
         Indicator.close();
-
+     
         if (result.err_code && result.err_code === 0) {
           // 获取验证码失败，在服务端设置了发送验证码一定是成功的，所以这一步是不会执行的
           Toast({
@@ -129,6 +130,11 @@ export default {
         Toast("短信验证码格式不正确!");
         return;
       }
+      //验证是否还在60秒之内，60秒之内才能发送
+      if (this.time === 0) {
+        Toast('时间已经过期，请重新点击发送验证码');
+        return ;
+      }
 
       let result = await loginCode({ phone: this.phone, code: this.code }); //登陆验证接口
       // res.json({
@@ -149,7 +155,7 @@ export default {
         this.setUser(this.userInfo);
 
         Indicator.open();
-        //这里为了显示效果，设置延迟两秒登录，
+        //这里为了显示效果，设置延迟两秒跳转，，这里再异步函数里面可以设置延迟来显示效果的原因是因为，这个延迟操作是异步函数中最后的操作
         setTimeout(() => {
           Indicator.close();
           // this.$router.replace("/me");
