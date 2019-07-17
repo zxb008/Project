@@ -400,7 +400,7 @@ router.post('/api/logincode', (req, res) => {
 
 
 /*
-   这个接口营应该在app.vue中调用
+   这个接口应该在app.vue中调用
 *  根据前面登录已经保存的在session中的用户id获取用户信息，来实现自动登录
 * */
 router.get('/api/autologingetuser', (req, res) => {
@@ -430,4 +430,15 @@ router.get('/api/autologingetuser', (req, res) => {
     });
 });
 
+//用户退出登录，应该清除session里面的用户id，防止页面刷新时候，调用上面的自动接口，实现自动登录
+router.get('/api/logout', (req, res) => {
+    
+   // 1.清除session中的userid
+   delete req.session.userId;
+   // 2. 返回客户端
+   res.json({
+      success_code: 200,
+      message: '退出登录成功'
+   });
+});
 module.exports = router;
