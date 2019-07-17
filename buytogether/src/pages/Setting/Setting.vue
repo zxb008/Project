@@ -43,34 +43,41 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { Toast } from "mint-ui";
+import { mapState,mapActions } from "vuex";
+import { Toast, MessageBox } from "mint-ui";
 export default {
   name: "setting",
   computed: {
     ...mapState(["user"])
   },
   mounted() {
-    if (this.user.id) {
-      return;
-    } else {
+    if (!this.user.id) {
+      this.$router.replace("/login");
       Toast({
         message: "请先登录",
         position: "middle",
         duration: 2000
       });
-      this.$router.replace("/login");
     }
   },
   methods: {
+    ...mapActions(['reqlogout']),
     logout() {
-      MessageBox.confirm('是否确认退出登录?').then(action => {
-        if ('confirm' === action) {
-            this.logout({});
+      MessageBox.confirm("是否确认退出登录?")
+        .then(action => {
+          if ("confirm" === action) {
+            // this.$store.dispatch('reqlogout')
+            this.reqlogout();
             // 回到主界面
-            this.$router.replace('/home');
+            this.$router.replace("/me");
           }
-      });
+        })
+        .catch(err => {
+          if (err == "cancel") {
+            //取消的回调
+          this.$router.replace("/setting");
+          }
+        });
     }
   }
 };

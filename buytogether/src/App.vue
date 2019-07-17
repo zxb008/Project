@@ -12,10 +12,10 @@ export default {
   components:{
     TabBar
   },
-  mounted() {
+  beforeCreate() {
     //得到用户信息，实现自动登录
     this.$store.dispatch('requser');
-  },
+  }
 }
 </script>
 

@@ -30,5 +30,5 @@ export const getHomeNav = ()=>$http(`${baseURL}/api/homenav`);
  export const autologingetuser = ()=>$http(`${baseURL}/api/autologingetuser`);
 
  //退出登录，这个接口将会清除服务器中session保存的用户id,从而确保页面刷新的时候，不会自动登录
-export const logout = ()=>ajax(BASE_URL + '/api/logout');
+export const logout = ()=>$http(`${baseURL}/api/logout`);
 
