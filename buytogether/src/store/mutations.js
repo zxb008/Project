@@ -7,7 +7,8 @@ import {
   HISTORY_VALUES,
   CLEAR_HISTORY_VALUES,
   SET_USER,
-  GET_USER
+  GET_USER,
+  LOGOUT_USER
 } from './mutation-types';
 
 export default {
@@ -47,5 +48,9 @@ export default {
   //获取用户信息，实现自动登录
   [GET_USER](state,params){
     state.user = params;
+  },
+  //退出登录
+  [LOGOUT_USER](state){
+    state.user = {}
   }
 }

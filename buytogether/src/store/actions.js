@@ -4,7 +4,8 @@ import {
   getHomeShopList,
   getRecommendShopList,
   getSearchGoods,
-  autologingetuser
+  autologingetuser,
+  logout
 } from '../api/index'
 import {
   HOME_CASUAL,
@@ -15,7 +16,8 @@ import {
   HISTORY_VALUES,
   CLEAR_HISTORY_VALUES,
   SET_USER,
-  GET_USER
+  GET_USER,
+  LOGOUT_USER
 } from './mutation-types'
 
 
@@ -92,4 +94,15 @@ export default {
     }
     
   },
+  //退出登录
+  async reqlogout({commit}) {
+    //这个接口将会清除服务器中session保存的用户id,从而确保页面刷新的时候，不会自动登录
+    const result  = await logout();
+    if (result.success_code === 200) {
+      //同时让vuex里面保存的用户信息清空
+      commit(LOGOUT_USER)
+    } else {
+      return;
+    }
+  }
 }

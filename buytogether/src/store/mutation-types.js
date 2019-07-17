@@ -10,3 +10,4 @@ export const CLEAR_HISTORY_VALUES = 'clear_history_values'; // 清除的历史�
 export const SET_USER = 'set_user'; // 用户成功登陆以后，把用户信息放入vuex里面
 
 export const GET_USER = 'get_user'; // 用户成功登陆以后，把用户信息放入vuex里面
+export const LOGOUT_USER = 'logout_user'; // 用户退出登陆

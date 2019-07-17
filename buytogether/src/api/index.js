@@ -29,3 +29,6 @@ export const getHomeNav = ()=>$http(`${baseURL}/api/homenav`);
  //根据服务端的session保存的id（id在用户登录时候保存了），获取用户信息来实现自动登录,在app.vue中调用
  export const autologingetuser = ()=>$http(`${baseURL}/api/autologingetuser`);
 
+ //退出登录，这个接口将会清除服务器中session保存的用户id,从而确保页面刷新的时候，不会自动登录
+export const logout = ()=>ajax(BASE_URL + '/api/logout');
+

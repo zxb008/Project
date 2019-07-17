@@ -1,5 +1,5 @@
 <template>
-  <div class="User">
+  <div class="user">
     <mt-header fixed title="我的资料" class="userHead">
       <router-link to="/me" slot="left">
         <mt-button icon="back"></mt-button>
@@ -20,7 +20,7 @@ computed: {
 </script>
 
 <style lang='stylus' scoped>
-.User
+.user
   width 100%
   height 100%
   .userHead
