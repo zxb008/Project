@@ -3,7 +3,7 @@
     <div class="my-older">
       <div class="older-top">
         <h3>我的订单</h3>
-        <span>查看全部 ></span>
+        <span>查看全部></span>
       </div>
       <div class="older-bottom">
         <div class="bottom-item">
@@ -107,13 +107,14 @@ export default {};
       width 100%
       display flex
       flex-direction row
-      padding 0 10px
       justify-content space-between
       height 44px
       line-height 44px
       h3
+        margin-left 10px 
         font-size 14px
       span 
+        margin-right 10px 
         opacity 0.5
     .older-bottom
       width 100%
