@@ -13,6 +13,10 @@ import 'mint-ui/lib/style.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 
+//引入字体图标
+import './common/icomoon/style.css'
+
+
 Vue.use(VueAwesomeSwiper, /* { default global options } */)
 Vue.use(LyTab);
 Vue.use(MintUI)

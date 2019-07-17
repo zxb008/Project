@@ -1,11 +1,11 @@
 <template>
   <div class="beforelogin">
     <div class="tou">
-      <img v-if="user.id" src="../images/new.png" alt />
-      <img v-else src="../images/tou.png" alt />
+      <img @click.prevent="setUser" v-if="user.id" src="../images/new.png" alt />
+      <img  v-else src="../images/tou.png" alt />
     </div>
     <div class="bot">
-      <div class="bot-login-out" v-if="user.id">
+      <div @click.prevent="setUser" class="bot-login-out" v-if="user.id">
         <div class="bot-login">
           <span>{{user.user_phone  | phoneFilter }}</span>
           <img src="../images/phone.png" alt />
@@ -34,7 +34,12 @@ export default {
       }
       return phoneArr.join('')
     }
-  }
+  },
+  methods: {
+    setUser () {
+      this.$router.replace('/user')
+    }
+  },
 };
 </script>
 

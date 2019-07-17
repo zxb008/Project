@@ -1,15 +1,18 @@
 <template>
   <div class="me">
     <BeforeLogin/>
+    <MiddleMe/>
   </div>
 </template>
 
 <script>
 import BeforeLogin from './Children/BeforeLogin'
+import MiddleMe from './Children/MiddleMe'
 export default {
   name:'me',
   components:{
-    BeforeLogin
+    BeforeLogin,
+    MiddleMe
   }
 }
 </script>

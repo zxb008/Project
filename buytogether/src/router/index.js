@@ -6,6 +6,7 @@ import Chat from '../pages/Chat/Chat'
 import Search from '../pages/Search/Search'
 import Me from '../pages/Me/Me'
 import Login from '../pages/Login/Login'
+import User from '../pages/User/User'
 
 import Hot from '../pages/Home/Children/Hot/Hot'
 import WomanClothes from '../pages/Home/Children/WomanClothes'
@@ -71,6 +72,12 @@ export default new Router({
       path: '/login',
       name:'login',
       component: Login,
+      meta:{showTabBar:false}
+    },
+    {
+      path: '/user',
+      name:'user',
+      component: User,
       meta:{showTabBar:false}
     }
   ]

@@ -1,0 +1,102 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?vvxcrx');
+  src:  url('fonts/icomoon.eot?vvxcrx#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?vvxcrx') format('truetype'),
+    url('fonts/icomoon.woff?vvxcrx') format('woff'),
+    url('fonts/icomoon.svg?vvxcrx#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="zxb-"], [class*=" zxb-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.zxb-zxb-order-1:before {
+  content: "\e900";
+  color: #bfbfbf;
+}
+.zxb-zxb-order-2:before {
+  content: "\e901";
+  color: #bfbfbf;
+}
+.zxb-zxb-order-3:before {
+  content: "\e902";
+  color: #bfbfbf;
+}
+.zxb-zxb-order-4:before {
+  content: "\e903";
+  color: #bfbfbf;
+}
+.zxb-zxb-order-5:before {
+  content: "\e904";
+  color: #bfbfbf;
+}
+.zxb-zxb-oring-1:before {
+  content: "\e905";
+  color: #efb336;
+}
+.zxb-zxb-oring-2:before {
+  content: "\e906";
+  color: #efb336;
+}
+.zxb-zxb-oring-3:before {
+  content: "\e907";
+  color: #efb336;
+}
+.zxb-zxb-oring-4:before {
+  content: "\e908";
+  color: #efb336;
+}
+.zxb-zxb-oring-5:before {
+  content: "\e909";
+  color: #efb336;
+}
+.zxb-zxb-oring-6:before {
+  content: "\e90a";
+  color: #efb336;
+}
+.zxb-zxb-oring-7:before {
+  content: "\e90b";
+  color: #efb336;
+}
+.zxb-zxb-oring-8:before {
+  content: "\e90c";
+  color: #efb336;
+}
+.zxb-zxb-oring-9:before {
+  content: "\e90d";
+  color: #efb336;
+}
+.zxb-zxb-red-1:before {
+  content: "\e90e";
+  color: #d81e06;
+}
+.zxb-zxb-red-2:before {
+  content: "\e90f";
+  color: #d81e06;
+}
+.zxb-zxb-red-3:before {
+  content: "\e910";
+  color: #d81e06;
+}
+.zxb-zxb-red-4:before {
+  content: "\e911";
+  color: #d81e06;
+}
+.zxb-zxb-red-5:before {
+  content: "\e912";
+  color: #d81e06;
+}
