@@ -60,7 +60,7 @@
         <span @click="cancleaddress">取消</span>
         <span @click="selectaddress">确定</span>
       </div>
-      <mt-picker  class="popup-picker" ref="pickCom" :slots="slots" @change="onValuesChange" valueKey="name"></mt-picker>
+      <mt-picker  class="popup-picker"  :slots="slots" @change="onValuesChange" ></mt-picker>
     </mt-popup>
 
     <div class="bott">
@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import address from './data/address.json'
 import { Indicator, MessageBox } from "mint-ui";
 import moment from "moment"; //处理时间格式的第三方库
 import { mapState } from "vuex";
@@ -94,6 +95,9 @@ export default {
       startDate: new Date("1949-10-01"),
       endDate: new Date("2016-10-01"),
       //常驻地
+      province:'',
+      city:'',
+      area:'',
       popupVisible: false,
       slots: [
         {
@@ -128,13 +132,10 @@ export default {
     };
   },
   mounted() {
-    //初始化数据
-    const provinces = require('./data/provinces');
-    const cities = require('./data/cities');
-    const areas = require('./data/areas');
-    this.slots[0].values = provinces;
-    this.slots[2].values = cities;
-    this.slots[4].values = areas;
+    this.$nextTick(()=>{
+      //初始化省份数据
+      this.slots[0].values = Object.keys(address);
+    })
   },
   computed: {
     ...mapState(["user"])
@@ -228,15 +229,27 @@ export default {
       this.popupVisible = true;
     },
     onValuesChange(picker, values) {
-      if (values[0] > values[1]) {
-        picker.setSlotValue(1, values[0]);
-      }
+       //1.获取当前选择的省份
+      this.province = values[0];
+
+      //2.获取当前省份对应的所有城市
+      let cities = Object.keys(address[values[0]]);
+      setSlotValues(1, cities)
+      //获取当前选择的城市
+      this.city = values[1];
+
+      //3.获取多有当前城市所对应的的区或者县
+      let areas = address[values[0]][values[1]];
+      setSlotValues(2, areas)
+      //获取当前选择的地区
+      this.area = values[2];
+
     },
     cancleaddress () {
-
+      this.popupVisible = false;
     },
     selectaddress () {
-
+      
     }
   }
 };
