@@ -229,7 +229,7 @@ router.get('/api/sendcode', (req, res) => {
     let phone = req.query.phone;
     //调用sms_util里面的的方法随机生成6位短信验证码
     let code = sms_util.randomCode(6);
-    
+
     //调用sms_util里面的的方法发送短信
     // sms_util.sendCode(phone, code, function (success) {
     //    if (success) {
@@ -289,17 +289,26 @@ router.post('/api/logincode', (req, res) => {
                     // 返回数据给客户端
                     res.json({
                         success_code: 200,
-                        message: { id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone }
+                        message: { 
+                            id: results[0].id,
+                            user_name: results[0].user_name,
+                            user_phone: results[0].user_phone,
+                            user_img: results[0].user_img,
+                            user_sex: results[0].user_sex,
+                            user_birthday: results[0].user_birthday,
+                            user_address: results[0].user_address,
+                            user_sign: results[0].user_sign,
+                         }
                     });
                 } else { // 新用户
                     //这里需要注意在建用户表的时候，user_name，user_phone的类型要设置为varchar类型，因为客户端传过来的phone的类型是字符串类型
-                    const addSql = "INSERT INTO users(`user_name`, `user_phone`) VALUES (?,?)";
-                  
-                    conn.query(addSql, [phone, phone], (error, results, fields) => {
-                        results = JSON.parse(JSON.stringify(results));
-                       
+                    const addSql = "INSERT INTO users(`user_name`, `user_phone`, `user_img`, `user_sex`, `user_birthday`, `user_address`, `user_sign`) VALUES (?,?,?,?,?,?,?)";
+
+                    conn.query(addSql, [phone, phone, '', '未填写', '未填写', '未填写', '未填写'], (error, results, fields) => {
+                        results = JSON.parse(JSON.stringify(results));//插入成功以后，返回数据，其中有新插入数据的id值
+
                         if (!error) {
-                             // 这里是为了下面/api/autologingetuser自动接口中根据session中的用户id获取用户信息
+                            // 这里是为了下面/api/autologingetuser自动接口中根据session中的用户id获取用户信息
                             req.session.userId = results.insertId;
                             let sqlStr = "SELECT * FROM users WHERE id = '" + results.insertId + "' LIMIT 1";
                             conn.query(sqlStr, (error, results, fields) => {
@@ -310,7 +319,16 @@ router.post('/api/logincode', (req, res) => {
                                     // 返回数据给客户端
                                     res.json({
                                         success_code: 200,
-                                        message: { id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone }
+                                        message: {
+                                            id: results[0].id,
+                                            user_name: results[0].user_name,
+                                            user_phone: results[0].user_phone,
+                                            user_img: results[0].user_img,
+                                            user_sex: results[0].user_sex,
+                                            user_birthday: results[0].user_birthday,
+                                            user_address: results[0].user_address,
+                                            user_sign: results[0].user_sign
+                                        }
                                     });
                                 }
                             });
@@ -405,25 +423,39 @@ router.post('/api/logincode', (req, res) => {
 * */
 router.get('/api/autologingetuser', (req, res) => {
     // 1.0 获取参数
+    //之前没有登录或者session已经过期，那么得不到userId
+    //之前有登录同时session没有过期，可以得到userId
     let userId = req.session.userId;
     // console.log(userId);
     // 1.1 数据库查询的语句
     let sqlStr = "SELECT * FROM users WHERE id = '" + userId + "' LIMIT 1";
     conn.query(sqlStr, (error, results, fields) => {
         if (error) {
-            res.json({err_code: 0, message: '请求数据失败'});
+            res.json({ err_code: 0, message: '请求数据失败' });
         } else {
             results = JSON.parse(JSON.stringify(results));
-           
-            if(!results[0]){
+
+            if (!results[0]) {
                 //之前没有登录或者session已经过期，那么是找不到用户信息
                 delete req.session.userId;//注意这里
-                res.json({error_code: 1, message: '请先登录'});
-            }else {
+                res.json({ error_code: 0, message: '请先登录' });
+            } else {
+                //这里可以再次在session中保存用户id,这样防止登录了但session过期，造成不能自动登录，
+                //但是一般不这样，因为这样增加了消耗
+            // req.session.userId = results[0].id;
                 // 返回数据给客户端
                 res.json({
                     success_code: 200,
-                    message: {id: results[0].id, user_name: results[0].user_name, user_phone: results[0].user_phone}
+                    message: {
+                        id: results[0].id,
+                        user_name: results[0].user_name,
+                        user_phone: results[0].user_phone,
+                        user_img: results[0].user_img,
+                        user_sex: results[0].user_sex,
+                        user_birthday: results[0].user_birthday,
+                        user_address: results[0].user_address,
+                        user_sign: results[0].user_sign
+                    }
                 });
             }
         }
@@ -432,13 +464,131 @@ router.get('/api/autologingetuser', (req, res) => {
 
 //用户退出登录，应该清除session里面的用户id，防止页面刷新时候，调用上面的自动接口，实现自动登录
 router.get('/api/logout', (req, res) => {
-    
-   // 1.清除session中的userid
-   delete req.session.userId;
-   // 2. 返回客户端
-   res.json({
-      success_code: 200,
-      message: '退出登录成功'
-   });
+
+    // 1.清除session中的userid
+    delete req.session.userId;
+    // 2. 返回客户端
+    res.json({
+        success_code: 200,
+        message: '退出登录成功'
+    });
+});
+
+
+//修改用户信息
+router.post('/api/resetuserimg', (req, res) => {
+    // 1. 获取数据
+    const img = req.body.user_img;
+
+});
+router.post('/api/resetusername', (req, res) => {
+    // 1. 获取数据
+    const id = req.session.userId;
+    const name = req.body.user_name;
+    const sqlStr =  'update users set user_name=? where id=?'
+   
+    conn.query(sqlStr, [name,id], (error, results, fields) => {
+        if (error) {
+            res.json({
+                success_code: 0,
+                message: '更新失败'
+            });
+        } else {
+            setTimeout(()=>{
+                res.json({
+                    success_code: 200,
+                    message: '更新成功'
+                });
+            },1000)
+        }
+    });
+});
+router.post('/api/resetusersex', (req, res) => {
+    // 1. 获取数据
+    const id = req.session.userId;
+    const sex = req.body.user_sex;
+    const sqlStr =  'update users set user_sex=? where id=?'
+   
+    conn.query(sqlStr, [sex,id], (error, results, fields) => {
+        if (error) {
+            res.json({
+                success_code: 0,
+                message: '更新失败'
+            });
+        } else {
+            setTimeout(()=>{
+                res.json({
+                    success_code: 200,
+                    message: '更新成功'
+                });
+            },1000)
+        }
+    });
+});
+router.post('/api/resetuseraddress', (req, res) => {
+    // 1. 获取数据
+    const id = req.session.userId;
+    const address = req.body.user_address;
+    const sqlStr =  'update users set user_address=? where id=?'
+   
+    conn.query(sqlStr, [address,id], (error, results, fields) => {
+        if (error) {
+            res.json({
+                success_code: 0,
+                message: '更新失败'
+            });
+        } else {
+            setTimeout(()=>{
+                res.json({
+                    success_code: 200,
+                    message: '更新成功'
+                });
+            },1000)
+        }
+    });
+});
+router.post('/api/resetuserbirthday', (req, res) => {
+    // 1. 获取数据
+    const id = req.session.userId;
+    const birthday = req.body.user_birthday;
+    const sqlStr =  'update users set user_birthday=? where id=?'
+   
+    conn.query(sqlStr, [birthday,id], (error, results, fields) => {
+        if (error) {
+            res.json({
+                success_code: 0,
+                message: '更新失败'
+            });
+        } else {
+            setTimeout(()=>{
+                res.json({
+                    success_code: 200,
+                    message: '更新成功'
+                });
+            },1000)
+        }
+    });
+});
+router.post('/api/resetusersign', (req, res) => {
+    // 1. 获取数据
+    const id = req.session.userId;
+    const sign = req.body.user_sign;
+    const sqlStr =  'update users set user_sign=? where id=?'
+   
+    conn.query(sqlStr, [sign,id], (error, results, fields) => {
+        if (error) {
+            res.json({
+                success_code: 0,
+                message: '更新失败'
+            });
+        } else {
+            setTimeout(()=>{
+                res.json({
+                    success_code: 200,
+                    message: '更新成功'
+                });
+            },1000)
+        }
+    });
 });
 module.exports = router;
