@@ -30,10 +30,9 @@
         <span>生日</span>
         <span>{{user.user_birthday}} ></span>
       </div>
-      <div class="user-item" @click.prevent="resetSign">
-        {{user.user_sign}}>
+      <div class="user-item" @click.prevent="resetSign"> 
         <span>个性签名</span>
-        <span></span>
+        <span>{{user.user_sign}}></span>
       </div>
     </div>
     <!-- 性别 -->
@@ -50,17 +49,12 @@
       @confirm="getBirthday"
     ></mt-datetime-picker>
     <!-- 常驻地 -->
-    <mt-popup
-      v-model="popupVisible"
-      position="bottom"
-      popup-transition="popup-fade"
-      class="popup"
-    >
+    <mt-popup v-model="popupVisible" position="bottom" popup-transition="popup-fade" class="popup">
       <div class="popup-toolbar">
         <span @click="cancleaddress">取消</span>
         <span @click="selectaddress">确定</span>
       </div>
-      <mt-picker  class="popup-picker"  :slots="slots" @change="onValuesChange" ></mt-picker>
+      <mt-picker class="popup-picker" :slots="slots" @change="onValuesChange"></mt-picker>
     </mt-popup>
 
     <div class="bott">
@@ -70,7 +64,7 @@
 </template>
 
 <script>
-import address from './data/address.json'
+import address from "./data/address.json";
 import { Indicator, MessageBox } from "mint-ui";
 import moment from "moment"; //处理时间格式的第三方库
 import { mapState } from "vuex";
@@ -95,9 +89,9 @@ export default {
       startDate: new Date("1949-10-01"),
       endDate: new Date("2016-10-01"),
       //常驻地
-      province:'',
-      city:'',
-      area:'',
+      province: "",
+      city: "",
+      area: "",
       popupVisible: false,
       slots: [
         {
@@ -109,7 +103,7 @@ export default {
         {
           divider: true,
           content: "-",
-          className: 'slot2'
+          className: "slot2"
         },
         {
           flex: 1,
@@ -120,7 +114,7 @@ export default {
         {
           divider: true,
           content: "-",
-          className: 'slot4'
+          className: "slot4"
         },
         {
           flex: 1,
@@ -131,11 +125,27 @@ export default {
       ]
     };
   },
+  created() {
+    //初始化省份数据
+    this.slots[0].values = Object.keys(address);
+    let arrayProvinces = this.slots[0].values;
+    // console.log(arrayProvinces);
+    
+    // this.slots[1].values =  Object.keys(address['北京市']);
+    // console.log(arrayProvinces[0]);
+    this.slots[2].values =  Object.keys(address[arrayProvinces[0]]);
+    let arrayCities = this.slots[2].values;
+    // console.log(arrayCities);
+    
+    this.slots[4].values =  address[arrayProvinces[0]][arrayCities[0]];
+    // let arrayAreas = this.slots[4].values;
+    // console.log(arrayAreas);
+  },
   mounted() {
-    this.$nextTick(()=>{
+    this.$nextTick(() => {
       //初始化省份数据
-      this.slots[0].values = Object.keys(address);
-    })
+      // this.onValuesChange();
+    });
   },
   computed: {
     ...mapState(["user"])
@@ -229,27 +239,27 @@ export default {
       this.popupVisible = true;
     },
     onValuesChange(picker, values) {
-       //1.获取当前选择的省份
-      this.province = values[0];
-
-      //2.获取当前省份对应的所有城市
-      let cities = Object.keys(address[values[0]]);
-      setSlotValues(1, cities)
-      //获取当前选择的城市
-      this.city = values[1];
-
-      //3.获取多有当前城市所对应的的区或者县
-      let areas = address[values[0]][values[1]];
-      setSlotValues(2, areas)
-      //获取当前选择的地区
-      this.area = values[2];
-
+     
+        picker.setSlotValues(1,Object.keys(address[values[0]]));
+        picker.setSlotValues(2,address[values[0]][values[1]]);
+        this.province = values[0];
+        this.city = values[1];
+        this.area = values[2];
+        // console.log(values[0],values[1],values[2]);
     },
-    cancleaddress () {
+    cancleaddress() {
       this.popupVisible = false;
     },
-    selectaddress () {
-      
+    selectaddress() {
+      let address = this.province+this.city+this.area;
+      Indicator.open("");
+      this.$store.dispatch("reqResetUser", {
+        user_address: address,
+        callback: () => {
+          Indicator.close("");
+        }
+      });
+      this.popupVisible = false;
     }
   }
 };
@@ -345,6 +355,6 @@ export default {
     .popup-picker
       width 100%
       // height 让子元素撑起来
-      background-color #F5F5F5 
+      background-color #F5F5F5
 </style>
 
