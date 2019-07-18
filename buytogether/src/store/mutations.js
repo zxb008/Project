@@ -8,7 +8,14 @@ import {
   CLEAR_HISTORY_VALUES,
   SET_USER,
   GET_USER,
-  LOGOUT_USER
+  LOGOUT_USER,
+
+  RESET_USER_IMG,
+  RESET_USER_NAME,
+  RESET_USER_SEX,
+  RESET_USER_ADDRESS, 
+  RESET_USER_BIRTHDAY,
+  RESET_USER_SIGN,
 } from './mutation-types';
 
 export default {
@@ -52,5 +59,24 @@ export default {
   //退出登录
   [LOGOUT_USER](state){
     state.user = {}
-  }
+  },
+  //在state里面重置用户信息
+  [RESET_USER_IMG](state,params){
+    state.user.user_img = params.user_img
+  },
+  [RESET_USER_NAME](state,params){
+    state.user.user_name = params.user_name
+  },
+  [RESET_USER_SEX](state,params){
+    state.user.user_sex = params.user_sex
+  },
+  [RESET_USER_ADDRESS](state,params){
+    state.user.user_address = params.user_address
+  },
+  [RESET_USER_BIRTHDAY](state,params){
+    state.user.user_birthday = params.user_birthday
+  },
+  [RESET_USER_SIGN](state,params){
+    state.user.user_sign = params.user_sign
+  },
 }

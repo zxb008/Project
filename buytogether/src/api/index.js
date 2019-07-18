@@ -32,3 +32,13 @@ export const getHomeNav = ()=>$http(`${baseURL}/api/homenav`);
  //退出登录，这个接口将会清除服务器中session保存的用户id,从而确保页面刷新的时候，不会自动登录
 export const logout = ()=>$http(`${baseURL}/api/logout`);
 
+//修改用户信息
+export const resetUserImg = (params)=>$http(`${baseURL}/api/resetuserimg`,params,'POST');
+export const resetUserName = (params)=>$http(`${baseURL}/api/resetusername`,params,'POST');
+export const resetUserSex = (params)=>$http(`${baseURL}/api/resetusersex`,params,'POST');
+export const resetUserAddress = (params)=>$http(`${baseURL}/api/resetuseraddress`,params,'POST');
+export const resetUserBirthday = (params)=>$http(`${baseURL}/api/resetuserbirthday`,params,'POST');
+export const resetUserSign = (params)=>$http(`${baseURL}/api/resetusersign`,params,'POST');
+
+
+

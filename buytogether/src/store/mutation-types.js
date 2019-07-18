@@ -11,3 +11,10 @@ export const SET_USER = 'set_user'; // 用户成功登陆以后，把用户信�
 
 export const GET_USER = 'get_user'; // 用户成功登陆以后，把用户信息放入vuex里面
 export const LOGOUT_USER = 'logout_user'; // 用户退出登陆
+//修改用户信息
+export const RESET_USER_IMG = 'reset_user_img'; 
+export const RESET_USER_NAME = 'reset_user_name'; 
+export const RESET_USER_SEX = 'reset_user_sex'; 
+export const RESET_USER_ADDRESS = 'reset_user_address'; 
+export const RESET_USER_BIRTHDAY = 'reset_user_birthday'; 
+export const RESET_USER_SIGN = 'reset_user_sign'; 

@@ -5,7 +5,14 @@ import {
   getRecommendShopList,
   getSearchGoods,
   autologingetuser,
-  logout
+  logout,
+
+  resetUserImg,
+  resetUserName,
+  resetUserSex,
+  resetUserAddress,
+  resetUserBirthday,
+  resetUserSign
 } from '../api/index'
 import {
   HOME_CASUAL,
@@ -17,7 +24,14 @@ import {
   CLEAR_HISTORY_VALUES,
   SET_USER,
   GET_USER,
-  LOGOUT_USER
+  LOGOUT_USER,
+
+  RESET_USER_IMG,
+  RESET_USER_NAME,
+  RESET_USER_SEX,
+  RESET_USER_ADDRESS, 
+  RESET_USER_BIRTHDAY,
+  RESET_USER_SIGN,
 } from './mutation-types'
 
 
@@ -104,5 +118,62 @@ export default {
     } else {
       return;
     }
-  }
+  },
+  //重置用户信息
+  async reqResetUser({commit},params) {
+    //修改头像
+    if (params.user_img) {
+      const result  = await resetUserImg(params);
+      if (result.success_code === 200) {
+        //同时让vuex里面保存的用户的性别修改
+        commit(RESET_USER_IMG,params);
+        params.callback && params.callback();
+      }
+    }
+    //修改昵称
+    if (params.user_name) {
+      const result  = await resetUserName(params);
+      if (result.success_code === 200) {
+        //同时让vuex里面保存的用户的性别修改
+        commit(RESET_USER_NAME,params);
+        params.callback && params.callback();
+      }
+    }
+    //修改性别
+    if (params.user_sex) {
+      const result  = await resetUserSex(params);
+      if (result.success_code === 200) {
+        //同时让vuex里面保存的用户的性别修改
+        commit(RESET_USER_SEX,params);
+        params.callback && params.callback();
+      }
+    }
+    //修改常驻地
+    if (params.user_address) {
+      const result  = await resetUserAddress(params);
+      if (result.success_code === 200) {
+        //同时让vuex里面保存的用户的性别修改
+        commit(RESET_USER_ADDRESS,params);
+        params.callback && params.callback();
+      }
+    }
+    //修改生日
+    if (params.user_birthday) {
+      const result  = await resetUserBirthday(params);
+      if (result.success_code === 200) {
+        //同时让vuex里面保存的用户的性别修改
+        commit(RESET_USER_BIRTHDAY,params);
+        params.callback && params.callback();
+      }
+    }
+    //修改个性签名
+    if (params.user_sign) {
+      const result  = await resetUserSign(params);
+      if (result.success_code === 200) {
+        //同时让vuex里面保存的用户的性别修改
+        commit(RESET_USER_SIGN,params);
+        params.callback && params.callback();
+      }
+    }
+  },
 }

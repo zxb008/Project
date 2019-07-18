@@ -7,7 +7,7 @@
     <div class="bot">
       <div @click.prevent="setUser" class="bot-login-out" v-if="user.id">
         <div class="bot-login">
-          <span>{{user.user_phone  | phoneFilter }}</span>
+          <span>{{user.user_name  | nameFilter }}</span>
           <img src="../images/phone.png" alt />
         </div>
         <div><span>勋章墙></span></div>
@@ -25,14 +25,18 @@ export default {
     ...mapState(["user"])
   },
   filters:{
-    phoneFilter (phone) {
-
-       if (!phone) return ''
-      let phoneArr = phone.split('')
-      for (let i = 3; i < 7; i++) {
-        phoneArr[i] = '*';
+     nameFilter(name) {
+      if (!name) return "";
+      let bool = /^[1][3,4,5,7,8][0-9]{9}$/.test(name);//判断昵称是电话号码形式还是重新设置了
+      if (bool) {
+        let nameArr = name.split("");
+        for (let i = 3; i < 7; i++) {
+          nameArr[i] = "*";
+        }
+        return nameArr.join("");
+      } else {
+        return name;
       }
-      return phoneArr.join('')
     }
   },
   methods: {

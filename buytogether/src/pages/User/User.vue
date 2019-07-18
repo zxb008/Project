@@ -13,35 +13,27 @@
         <span>头像</span>
         <img src="./images/new.png" alt />
       </div>
-      <div class="user-item">
-        <span>手机</span>
-        <span>{{user.user_phone | phoneFilter }}</span>
-      </div>
-      <div class="user-item">
+      <div class="user-item" @click.prevent="resetName">
         <span>昵称</span>
-        <span>
-          <input type="text" />
-        </span>
+        <span>{{user.user_name | nameFilter }} ></span>
       </div>
+
       <div class="user-item" @click="showActionsheet">
         <span>性别</span>
-        <span>{{user_sex}}</span>
+        <span>{{user.user_sex}} ></span>
       </div>
-      <div class="user-item">
+      <div class="user-item" @click.prevent="showPopup">
         <span>常住地</span>
-        <span>
-          <input type="text" />
-        </span>
+        <span>{{user.user_address}} ></span>
       </div>
       <div class="user-item" @click="$refs.picker.open()">
         <span>生日</span>
-        <span>{{user_birthday}}</span>
+        <span>{{user.user_birthday}} ></span>
       </div>
-      <div class="user-item">
+      <div class="user-item" @click.prevent="resetSign">
+        {{user.user_sign}}>
         <span>个性签名</span>
-        <span>
-          <input type="text" />
-        </span>
+        <span></span>
       </div>
     </div>
     <!-- 性别 -->
@@ -57,6 +49,20 @@
       :endDate="endDate"
       @confirm="getBirthday"
     ></mt-datetime-picker>
+    <!-- 常驻地 -->
+    <mt-popup
+      v-model="popupVisible"
+      position="bottom"
+      popup-transition="popup-fade"
+      class="popup"
+    >
+      <div class="popup-toolbar">
+        <span @click="cancleaddress">取消</span>
+        <span @click="selectaddress">确定</span>
+      </div>
+      <mt-picker  class="popup-picker" ref="pickCom" :slots="slots" @change="onValuesChange" valueKey="name"></mt-picker>
+    </mt-popup>
+
     <div class="bott">
       <span>我的带货动态</span>
     </div>
@@ -64,14 +70,13 @@
 </template>
 
 <script>
- import moment from 'moment';//处理时间格式的第三方库
+import { Indicator, MessageBox } from "mint-ui";
+import moment from "moment"; //处理时间格式的第三方库
 import { mapState } from "vuex";
 export default {
   name: "user",
   data() {
     return {
-      user_sex: "未填写>",
-      user_birthday: "未填写>",
       //性别选择
       sheetVisible: false,
       actions: [
@@ -87,38 +92,151 @@ export default {
       //生日日期
       // pickerVisible: false,
       startDate: new Date("1949-10-01"),
-      endDate: new Date("2016-10-01")
+      endDate: new Date("2016-10-01"),
+      //常驻地
+      popupVisible: false,
+      slots: [
+        {
+          flex: 1,
+          values: [],
+          className: "slot1",
+          textAlign: "center"
+        },
+        {
+          divider: true,
+          content: "-",
+          className: 'slot2'
+        },
+        {
+          flex: 1,
+          values: [],
+          className: "slot3",
+          textAlign: "center"
+        },
+        {
+          divider: true,
+          content: "-",
+          className: 'slot4'
+        },
+        {
+          flex: 1,
+          values: [],
+          className: "slot5",
+          textAlign: "center"
+        }
+      ]
     };
+  },
+  mounted() {
+    //初始化数据
+    const provinces = require('./data/provinces');
+    const cities = require('./data/cities');
+    const areas = require('./data/areas');
+    this.slots[0].values = provinces;
+    this.slots[2].values = cities;
+    this.slots[4].values = areas;
   },
   computed: {
     ...mapState(["user"])
   },
   filters: {
-    phoneFilter(phone) {
-      if (!phone) return "";
-      let phoneArr = phone.split("");
-      for (let i = 3; i < 7; i++) {
-        phoneArr[i] = "*";
+    nameFilter(name) {
+      if (!name) return "";
+      let bool = /^[1][3,4,5,7,8][0-9]{9}$/.test(name); //判断昵称是电话号码形式还是重新设置了
+      if (bool) {
+        let nameArr = name.split("");
+        for (let i = 3; i < 7; i++) {
+          nameArr[i] = "*";
+        }
+        return nameArr.join("");
+      } else {
+        return name;
       }
-      return phoneArr.join("");
     }
   },
   methods: {
     back() {
-      //更新信息
       this.$router.replace("/me");
+    },
+    resetName() {
+      MessageBox.prompt("请输入昵称")
+        .then(({ value, action }) => {
+          if (action === "confirm") {
+            Indicator.open("");
+            this.$store.dispatch("reqResetUser", {
+              user_name: value,
+              callback: () => {
+                Indicator.close("");
+              }
+            });
+          }
+        })
+        .catch(err => {
+          if (err == "cancel") {
+            //取消的回调
+            this.$router.replace("/user");
+          }
+        });
+    },
+    resetSign() {
+      MessageBox.prompt("请输入个性签名")
+        .then(({ value, action }) => {
+          if (action === "confirm") {
+            Indicator.open("");
+            this.$store.dispatch("reqResetUser", {
+              user_sign: value,
+              callback: () => {
+                Indicator.close("");
+              }
+            });
+          }
+        })
+        .catch(err => {
+          if (err == "cancel") {
+            //取消的回调
+            this.$router.replace("/user");
+          }
+        });
     },
     //是否显示actionsheet
     showActionsheet() {
       this.sheetVisible = true;
     },
     selectManOrWoman(props) {
-      this.sex = props.name;
-      // this.sheetVisible = false;
+      //调用接口更新数据库和vuex中用户的信息
+      Indicator.open("");
+      this.$store.dispatch("reqResetUser", {
+        user_sex: props.name,
+        callback: () => {
+          Indicator.close("");
+        }
+      });
     },
     //确定按钮，把选择的生日日期赋值给属性
-    getBirthday(data) {
-      this.user_birthday = moment(data).format("YYYY年MM月DD日");
+    getBirthday(props) {
+      let date = moment(props).format("YYYY年MM月DD日");
+      Indicator.open("");
+      this.$store.dispatch("reqResetUser", {
+        user_birthday: date,
+        callback: () => {
+          Indicator.close("");
+        }
+      });
+    },
+    //常驻地
+    showPopup() {
+      this.popupVisible = true;
+    },
+    onValuesChange(picker, values) {
+      if (values[0] > values[1]) {
+        picker.setSlotValue(1, values[0]);
+      }
+    },
+    cancleaddress () {
+
+    },
+    selectaddress () {
+
     }
   }
 };
@@ -180,21 +298,10 @@ export default {
       display flex
       justify-content space-between
       align-items center
-      input
-        border none
-        outline none
-        text-align right
-    button
-      width 90%
-      height 40px
-      line-height 40px
-      background-color #e9232c
-      text-align center
-      margin 20px 5%
-      border none
-      font-size 16px
-      color #fff
-      border-radius 10px
+      span
+        &:last-child
+          opacity 0.5
+          font-size 15px
   .bott
     width 100%
     // height 200px
@@ -206,5 +313,25 @@ export default {
     span
       line-height 40px
       font-size 16px
+  .popup
+    width 100%
+    // height 让子元素撑起来
+    .popup-toolbar
+      width 100%
+      height 40px
+      background-color #fff
+      display flex
+      align-items center
+      justify-content space-between
+      span
+        color #5A7FEB
+      span:first-child
+        margin-left 20px
+      span:last-child
+        margin-right 20px
+    .popup-picker
+      width 100%
+      // height 让子元素撑起来
+      background-color #F5F5F5 
 </style>
 
