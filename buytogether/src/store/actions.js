@@ -62,14 +62,15 @@ export default {
   },
   //获取推荐板块的商品列表数据
   async reqRecommendShopList({commit},params){
-    const data  = await getRecommendShopList(params);
+    const data  = await getRecommendShopList({startIndex:params.startIndex,size:params.size});
     commit(RECOMMEND_SHOP_LIST,{recommendshoplist:data.message});
 
      //这里我们设置一个延时器，是为了让页面显示有提示的效果，否则事件太短，效果不明显
     // && 的意思就是：如果params.closeIndicator存在，就执行closeIndicator(),这和 || 的作用相反
-     setTimeout(() => {
       params.closeIndicator && params.closeIndicator();
-     }, 1000);
+      if (data.message.length == 0) {
+        params.msg && params.msg();
+      }
   },
   
   //获取搜索板块的商品列表数据
