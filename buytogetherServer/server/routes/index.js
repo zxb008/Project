@@ -15,42 +15,42 @@ router.get('/', function (req, res, next) {
 
 //向数据库中批量插入数据
 
-// //1.得到一个数据的数组，数组中的元素是商品对象，保存每个商品的信息
-// let recommendShoplistArr = require('../data/recommendshoplist').data;
-// //2.定义一个api
-// router.get('/api/insertRecommend', function (req, res, next) {
-//     let array = [];
+//1.得到一个数据的数组，数组中的元素是商品对象，保存每个商品的信息
+let recommendShoplistArr = require('../data/recommendshoplist').data;
+//2.定义一个api
+router.get('/api/insertRecommend', function (req, res, next) {
+    let array = [];
 
-//     recommendShoplistArr.forEach((element, index) => {
-//         //新建一个数组，把每个商品对象的数据保存到这个数组
-//         let array_item = [];
-//         element.goods_id = element.goods_id;
-//         array_item.push(element.goods_id);
-//         array_item.push(element.goods_name);
-//         array_item.push(element.short_name);
-//         array_item.push(element.thumb_url);
-//         array_item.push(element.hd_thumb_url);
-//         array_item.push(element.image_url);
-//         array_item.push(element.babels.join(','));
-//         array_item.push(element.price);
-//         array_item.push(element.normal_price);
-//         array_item.push(element.market_price);
-//         array_item.push(element.sales_tip);
-//         //把每个小数组存入大数组中,形成一个二维数组
-//         array.push(array_item)
-//     });
-// //    console.log(array);
-//     //3.执行sql语句
-//     let sqlStr = "INSERT INTO recommend(`goods_id`,`goods_name`,`short_name`, `thumb_url`, `hd_thumb_url`, `image_url`,`babels`, `price`, `normal_price`, `market_price`, `sales_tip`) VALUES ?";
-//     conn.query(sqlStr, [array], (error, results, fields) => {
-//         if (error) {
-//             console.log(error);
-//             console.log('插入失败');
-//         } else {
-//             console.log('插入成功');
-//         }
-//     });
-// })
+    recommendShoplistArr.forEach((element, index) => {
+        //新建一个数组，把每个商品对象的数据保存到这个数组
+        let array_item = [];
+        // element.goods_id = element.goods_id;
+        array_item.push(element.goods_id);
+        array_item.push(element.goods_name);
+        array_item.push(element.short_name);
+        array_item.push(element.thumb_url);
+        array_item.push(element.hd_thumb_url);
+        array_item.push(element.image_url);
+        array_item.push(element.babels.join(','));
+        array_item.push(element.price);
+        array_item.push(element.normal_price);
+        array_item.push(element.market_price);
+        array_item.push(element.sales_tip);
+        //把每个小数组存入大数组中,形成一个二维数组
+        array.push(array_item)
+    });
+//    console.log(array);
+    //3.执行sql语句
+    let sqlStr = "INSERT INTO recommendshoplist(`goods_id`,`goods_name`,`short_name`, `thumb_url`, `hd_thumb_url`, `image_url`,`babels`, `price`, `normal_price`, `market_price`, `sales_tip`) VALUES ?";
+    conn.query(sqlStr, [array], (error, results, fields) => {
+        if (error) {
+            console.log(error);
+            console.log('插入失败');
+        } else {
+            console.log('插入成功');
+        }
+    });
+})
 
 
 // //1.得到一个数据的数组，数组中的元素是商品对象，保存每个商品的信息
@@ -157,7 +157,7 @@ router.get('/api/recommendshoplist', (req, res) => {
     //     res.json({ success_code: 200, message: data })
     // }, 10);
     let startIndex = req.query.startIndex || 1;
-    let size = req.query.size || 20;
+    let size = req.query.size || 10;
 
     let sqlStr = `select * from recommendshoplist limit ${(startIndex - 1) * size} , ${size}`;
     conn.query(sqlStr, (err, results) => {
@@ -170,7 +170,9 @@ router.get('/api/recommendshoplist', (req, res) => {
                 newResults.push(ele)
             });
             // console.log(results);
-            res.json({ success_code: 200, message: newResults })
+             setTimeout(()=>{
+                res.json({ success_code: 200, message: newResults })
+             },2000)
         }
     })
 });
