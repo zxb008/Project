@@ -10,6 +10,13 @@
       </div>
       <button @click="search">搜索</button>
     </div>
+    <div class="select" v-if="showSelect">
+      <ul>
+        <li @click="selectLi(index)" v-for="(item,index) in selectArray" :key="index">
+          <span>{{item}}</span>
+        </li>
+      </ul>
+    </div>
     <!-- <div class="bot" ref="bot"> -->
     <div class="search-content">
       <div class="title">
@@ -54,7 +61,9 @@ export default {
   data() {
     return {
       pllabel: "迷你电动车",
-      value: ""
+      value: "",
+      showSelect: false,
+      selectArray: []
     };
   },
   //从vuex中的state去除所有的历史记录
@@ -68,16 +77,15 @@ export default {
     // this._initScrolly();
   },
   watch: {
-      //实现搜索框的防抖
-    value:_Debounce(function() {
+    //实现搜索框的防抖
+    value: _Debounce(function() {
       // console.log(12);
       //实现模糊查询
-      
+      this.selectArray.push("n", "a", "ad");
+      this.showSelect = true;
     }, 1000)
   },
   methods: {
-  
-    
     inputFocus() {
       this.$nextTick(x => {
         //正确写法
@@ -86,6 +94,8 @@ export default {
     },
     //向父组件传值，关闭面板
     noShowMianBan() {
+      //关闭搜索提示面板
+      this.showSelect = false;
       this.$emit("mianBan", false);
     },
     //点击搜索按钮以后
@@ -98,6 +108,18 @@ export default {
       this.goSearch();
       //清空input
       this.value = "";
+      //关闭搜索提示面板
+      this.showSelect = false;
+    },
+    //点击搜索提示的li标签以后
+    selectLi(index) {
+      this.value = this.selectArray[index];
+      //添加到历史记录里面
+      this.$store.dispatch("reqHistoryValue", { value: this.value });
+      //跳转路由,同时把参数value传过去
+      setTimeout(() => {
+        this.goSearch();
+      }, 1000);
     },
     //点击显示的历史li标签以后
     searchLi(index) {
@@ -105,7 +127,7 @@ export default {
       //跳转路由,同时把参数value传过去
       setTimeout(() => {
         this.goSearch();
-      }, 2000);
+      }, 1000);
     },
     goSearch() {
       //传参过去
@@ -116,6 +138,7 @@ export default {
         }
       });
     },
+
     clear() {
       this.$store.dispatch("clearHistoryValue");
       this.value = "";
@@ -171,6 +194,25 @@ export default {
       height 100%
       border none
       background-color #fff
+  .select
+    width 100%
+    position absolute
+    left 0px
+    top 50px
+    // height 子元素撑起来
+    ul
+      width 100%
+      li
+        width 100%
+        height 30px
+        display flex
+        align-items center
+        background-color #fff
+        border-bottom 1px solid #EAE4E4
+        span
+          margin-left 10px
+          opacity 0.7
+          font-size 15px
   .search-content
     padding 30px 15px
     .title
