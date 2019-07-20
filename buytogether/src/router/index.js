@@ -8,6 +8,7 @@ import Me from '../pages/Me/Me'
 import Login from '../pages/Login/Login'
 import User from '../pages/User/User'
 import Setting from '../pages/Setting/Setting'
+import SearchResult from '../pages/SearchResult/SearchResult'
 
 import Hot from '../pages/Home/Children/Hot/Hot'
 import WomanClothes from '../pages/Home/Children/WomanClothes'
@@ -85,6 +86,12 @@ export default new Router({
       path:'/setting',
       name:'setting',
       component: Setting,
+      meta:{showTabBar:false}
+    },
+    {
+      path:'/searchresult',
+      name:'searchresult',
+      component: SearchResult,
       meta:{showTabBar:false}
     }
   ]

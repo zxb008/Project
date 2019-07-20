@@ -6,7 +6,7 @@
       </div>
       <div class="header-right">
         <img src="../images/search.png" alt width="20" />
-        <input ref="inputs" type="search" placeholder="迷你电车" v-model="value" />
+        <input ref="inputs" type="search" :placeholder="pllabel" v-model="value" />
       </div>
       <button @click="search">搜索</button>
     </div>
@@ -49,6 +49,7 @@ export default {
   name: "searchmianban",
   data() {
     return {
+      pllabel:'迷你电动车',
       value: ""
     };
   },
@@ -92,7 +93,7 @@ export default {
         // this.historyValue.push(this.value);
         this.$store.dispatch('reqHistoryValue',{value:this.value})
          //跳转路由,同时把参数value传过去
-         this.goSearch(this.value)
+         this.goSearch()
          //清空input
         this.value = ''
       }
@@ -106,8 +107,9 @@ export default {
         this.goSearch(this.value)
       },2000)
     },
-    goSearch(param){
-
+    goSearch(){
+      //传参过去
+      this.$router.replace('/searchresult')
     },
     clear(){
        this.$store.dispatch('clearHistoryValue');
@@ -159,6 +161,7 @@ export default {
         border-radius 10px
         background-color #F5F5F5
     button
+      font-size 15px
       flex 1.5
       height 100%
       border none

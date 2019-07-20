@@ -34,7 +34,7 @@ props:{
   background-color #FFFFFF
   img
     width 100%
-    // height 60%
+    height 160px
   h4
     height 20px
     overflow hidden
