@@ -55,7 +55,7 @@
 // import BScroll from "better-scroll";
 import { mapState } from "vuex";
 import { _Debounce } from "../../../utils/_DebounceAnd_Throttle ";
-
+import SearchData from "../data/SearchData";
 export default {
   name: "searchmianban",
   data() {
@@ -79,10 +79,17 @@ export default {
   watch: {
     //实现搜索框的防抖
     value: _Debounce(function() {
-      // console.log(12);
-      //实现模糊查询
-      this.selectArray.push("n", "a", "ad");
-      this.showSelect = true;
+      if (this.value !== "") {
+        //调用接口，实现模糊查询，但是数据库的数据有限，所以这里我们假设成功调用接口，得到一个结果
+        SearchData.forEach((element, index) => {
+          if (element.startsWith(this.value)) {
+            this.selectArray.push(element);
+          }
+        });
+        this.showSelect = true;
+      } else {
+        this.showSelect = false;
+      }
     }, 1000)
   },
   methods: {
@@ -196,10 +203,11 @@ export default {
       background-color #fff
   .select
     width 100%
+    height 100%
     position absolute
     left 0px
     top 50px
-    // height 子元素撑起来
+    background-color #f5f5f5
     ul
       width 100%
       li
@@ -211,8 +219,8 @@ export default {
         border-bottom 1px solid #EAE4E4
         span
           margin-left 10px
-          opacity 0.7
-          font-size 15px
+          font-size 13px
+          letter-spacing 1.2px
   .search-content
     padding 30px 15px
     .title
