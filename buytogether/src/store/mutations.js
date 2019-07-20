@@ -41,7 +41,12 @@ export default {
   },
   //搜索的历史记录
   [HISTORY_VALUES](state,{value}){
-    state.historyvalues.push(value);
+    let flag = state.historyvalues.every((item, index) => {
+      return item !== value;
+    });
+    if (flag) {
+      state.historyvalues.push(value);
+    }
   },
 
   //清空历史记录

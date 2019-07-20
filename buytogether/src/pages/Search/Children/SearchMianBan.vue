@@ -11,51 +11,55 @@
       <button @click="search">搜索</button>
     </div>
     <!-- <div class="bot" ref="bot"> -->
-      <div class="search-content">
-        <div class="title">
-          <img src="../images/time.png" alt  />
-          <span>最近搜索</span>
-          <div @click="clear" ><img src="../images/garbage.png" alt="" ></div>
+    <div class="search-content">
+      <div class="title">
+        <img src="../images/time.png" alt />
+        <span>最近搜索</span>
+        <div @click="clear">
+          <img src="../images/garbage.png" alt />
         </div>
-        <ul class="search-list">
-          <li @click="searchLi(index)" v-for="(item,index) in historyvalues" :key="index">{{item}}</li>
-        </ul>
       </div>
-      <div class="search-content">
-        <div class="title">
-          <img src="../images/fire.png" alt width="25" />
-          <span>搜索发现</span>
-          <div></div>
-        </div>
-        <ul class="search-list">
-          <li>时尚潮鞋</li>
-          <li>浴巾可穿</li>
-          <li>石榴水果</li>
-          <li>富豪卷纸</li>
-          <li>冰箱收纳盒</li>
-          <li>毛巾衣服</li>
-          <li>小白鞋增高透气</li>
-          <li>连衣裙夏</li>
-        </ul>
+      <ul class="search-list">
+        <li @click="searchLi(index)" v-for="(item,index) in historyvalues" :key="index">{{item}}</li>
+      </ul>
+    </div>
+    <div class="search-content">
+      <div class="title">
+        <img src="../images/fire.png" alt width="25" />
+        <span>搜索发现</span>
+        <div></div>
       </div>
+      <ul class="search-list">
+        <li>时尚潮鞋</li>
+        <li>浴巾可穿</li>
+        <li>石榴水果</li>
+        <li>富豪卷纸</li>
+        <li>冰箱收纳盒</li>
+        <li>毛巾衣服</li>
+        <li>小白鞋增高透气</li>
+        <li>连衣裙夏</li>
+      </ul>
+    </div>
     <!-- </div> -->
   </div>
 </template>
 
 <script>
 // import BScroll from "better-scroll";
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
+import { _Debounce } from "../../../utils/_DebounceAnd_Throttle ";
+
 export default {
   name: "searchmianban",
   data() {
     return {
-      pllabel:'迷你电动车',
+      pllabel: "迷你电动车",
       value: ""
     };
   },
   //从vuex中的state去除所有的历史记录
   computed: {
-    ...mapState(['historyvalues'])
+    ...mapState(["historyvalues"])
   },
   mounted() {
     //input聚焦
@@ -63,62 +67,58 @@ export default {
     //滚动效果
     // this._initScrolly();
   },
+  watch: {
+      //实现搜索框的防抖
+    value:_Debounce(function() {
+      // console.log(12);
+      //实现模糊查询
+      
+    }, 1000)
+  },
   methods: {
-    // _initScrolly() {
-    //   this.$nextTick(() => {
-    //     this.bot = new BScroll(this.$refs.bot, {
-    //       scrollY: true,
-    //       click: true
-    //     });
-    //   });
-    // },
-   
+  
+    
     inputFocus() {
       this.$nextTick(x => {
         //正确写法
         this.$refs.inputs.focus();
       });
-    } ,
+    },
     //向父组件传值，关闭面板
     noShowMianBan() {
       this.$emit("mianBan", false);
     },
     //点击搜索按钮以后
     search() {
-      //显示搜索的历史记录
-      let flag = this.historyvalues.every((item, index) => {
-        return item !== this.value;
-      });
-      if (this.value !== "" && flag) {
-        // this.historyValue.push(this.value);
-        this.$store.dispatch('reqHistoryValue',{value:this.value})
-         //跳转路由,同时把参数value传过去
-         this.goSearch()
-         //清空input
-        this.value = ''
+      if (this.value == "") {
+        this.value = this.pllabel;
       }
-     
+      this.$store.dispatch("reqHistoryValue", { value: this.value });
+      //跳转路由,同时把参数value传过去
+      this.goSearch();
+      //清空input
+      this.value = "";
     },
     //点击显示的历史li标签以后
     searchLi(index) {
       this.value = this.historyvalues[index];
       //跳转路由,同时把参数value传过去
-      setTimeout(()=>{
-        this.goSearch(this.value)
-      },2000)
+      setTimeout(() => {
+        this.goSearch();
+      }, 2000);
     },
-    goSearch(){
+    goSearch() {
       //传参过去
       this.$router.replace({
-        path:'/searchresult',
-        query:{
-          value:this.value        
+        path: "/searchresult",
+        query: {
+          value: this.value
         }
-      })
+      });
     },
-    clear(){
-       this.$store.dispatch('clearHistoryValue');
-        this.value = ''
+    clear() {
+      this.$store.dispatch("clearHistoryValue");
+      this.value = "";
     }
   }
 };
@@ -179,17 +179,17 @@ export default {
       align-items center
       color #aaa
       margin-bottom 10px
-      img 
+      img
         flex 0.7
-        height  20px
+        height 20px
       span
-        line-height  20px
+        line-height 20px
         flex 8.3
         padding-left 10px
       div
         flex 1
         height 20px
-        img 
+        img
           width 85%
           height 100%
     .search-list

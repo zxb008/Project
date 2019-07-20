@@ -86,6 +86,9 @@ export default {
   mounted() {
     //使得vuex里面的state获取到搜索板块的商品数据
     this.$store.dispatch("reqSearchGoods");
+    if (this.$route.query.showMianban) {
+       this.show = this.$route.query.showMianban
+    }
   },
   watch: {
     //数据渲染以后才能滚动效果
