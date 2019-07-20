@@ -109,7 +109,12 @@ export default {
     },
     goSearch(){
       //传参过去
-      this.$router.replace('/searchresult')
+      this.$router.replace({
+        path:'/searchresult',
+        query:{
+          value:this.value        
+        }
+      })
     },
     clear(){
        this.$store.dispatch('clearHistoryValue');

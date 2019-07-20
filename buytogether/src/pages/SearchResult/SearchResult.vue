@@ -1,6 +1,6 @@
 <template>
   <div class="searchresult">
-    <HeadResult/>
+    <HeadResult :value="value"/>
   </div>
 </template>
 
@@ -8,9 +8,17 @@
 import HeadResult from './Children/HeadResult'
 export default {
   name: "searchresult",
+  data() {
+    return {
+      value:'',
+    }
+  },
   components:{
     HeadResult
-  }
+  },
+  created() {
+    this.value = this.$route.query.value;
+  },
 };
 </script>
 
