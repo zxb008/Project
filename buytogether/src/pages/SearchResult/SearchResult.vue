@@ -3,10 +3,13 @@
     <div class="headresult" ref="headresult">
       <HeadResult :value="value" />
     </div>
+    <div class="containerHeader2" ref="containerHeader2" v-if="show">
+      <ContainerHeader />
+    </div>
     <div ref="container" class="container">
       <ul>
         <div class="bot-header" ref="containerHeader">
-          <ContainerHeader/>
+          <ContainerHeader />
         </div>
         <ul class="container-ul" v-if="recommendshoplist.length > 0">
           <ShopBlock
@@ -17,7 +20,7 @@
           />
         </ul>
         <div v-else class="container-no">
-          <img src="./images/noFind.png" alt="">
+          <img src="./images/noFind.png" alt />
           <span>没有找到你搜索的商品</span>
         </div>
       </ul>
@@ -26,7 +29,7 @@
 </template>
 
 <script>
-import ContainerHeader from './Children/ContainerHeader'
+import ContainerHeader from "./Children/ContainerHeader";
 import ShopBlock from "../../components/ShopBlock/ShopBlock";
 import { mapState } from "vuex";
 import BScroll from "better-scroll";
@@ -36,6 +39,7 @@ export default {
   name: "searchresult",
   data() {
     return {
+      show:false,
       value: "",
       satrY: 0,
       startIndex: 1,
@@ -110,21 +114,27 @@ export default {
         this.scroll.refresh();
       });
       //监听滚动事件
+      let top;
       this.scroll.on("scroll", pos => {
-        if (pos.y > -50) {
-        //  this.$refs.headresult.style.position = 'absolute';
-        //  this.$refs.headresult.style.left = '0px';
-        //  this.$refs.headresult.style.top = `${pos.y}px`
-        } else  {
-          
-        }
+        if (pos.y > -50 && pos.y < 0) {
+          this.$refs.headresult.style.left = "0px";
+          this.$refs.headresult.style.top = `${pos.y}px`;
 
+          this.show = true;
+          this.$nextTick(()=>{
+            top = 50 +pos.y
+            this.$refs.containerHeader2.style.left = "0px";
+            this.$refs.containerHeader2.style.top = `${top}px`
+          })
+        }  if (pos.y > 0) {
+          this.show = false;
+        }
       });
     }
   },
   created() {
     this.value = this.$route.query.value;
-     this.$store.dispatch("reqRecommendShopList", {
+    this.$store.dispatch("reqRecommendShopList", {
       startIndex: this.startIndex,
       size: this.size
     });
@@ -136,19 +146,41 @@ export default {
 .searchresult
   width 100%
   height 100%
+  border 1px solid #fff
   position relative
   .headresult
     width 100%
     height 50px
+    position absolute
+    left 0px
+    top 0px
+  .containerHeader2
+    width 100%
+    height 45px
+    position absolute
+    left 0px
+    top 50px
+    margin-top 3px
+    background-color #fff
+    // z-index 98
   .container
+    // margin-top 50px
     width 100%
     height 100%
     overflow hidden
+    margin-top 50px
+    // position absolute
+    // left 0px
+    // top 50px
     .bot-header
       width 100%
       height 45px
       margin-top 3px
       background-color #fff
+      // position fixed
+      // left 0px
+      // top 0px
+      // z-index 98
     .container-ul
       margin-top 3px
       display flex
