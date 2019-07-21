@@ -1,10 +1,12 @@
 <template>
   <div class="searchresult">
-    <HeadResult :value="value" />
+    <div class="headresult" ref="headresult">
+      <HeadResult :value="value" />
+    </div>
     <div ref="container" class="container">
       <ul>
-        <div class="bot-header">
-          
+        <div class="bot-header" ref="containerHeader">
+          <ContainerHeader/>
         </div>
         <ul class="container-ul" v-if="recommendshoplist.length > 0">
           <ShopBlock
@@ -24,6 +26,7 @@
 </template>
 
 <script>
+import ContainerHeader from './Children/ContainerHeader'
 import ShopBlock from "../../components/ShopBlock/ShopBlock";
 import { mapState } from "vuex";
 import BScroll from "better-scroll";
@@ -41,6 +44,7 @@ export default {
   },
   components: {
     HeadResult,
+    ContainerHeader,
     ShopBlock
   },
   computed: {
@@ -107,11 +111,14 @@ export default {
       });
       //监听滚动事件
       this.scroll.on("scroll", pos => {
-        // if (pos.y < -50) {
-        //   this.showHead = true;
-        // } else {
-        //   this.showHead = false;
-        // }
+        if (pos.y > -50) {
+        //  this.$refs.headresult.style.position = 'absolute';
+        //  this.$refs.headresult.style.left = '0px';
+        //  this.$refs.headresult.style.top = `${pos.y}px`
+        } else  {
+          
+        }
+
       });
     }
   },
@@ -129,6 +136,10 @@ export default {
 .searchresult
   width 100%
   height 100%
+  position relative
+  .headresult
+    width 100%
+    height 50px
   .container
     width 100%
     height 100%
