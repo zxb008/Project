@@ -1,5 +1,5 @@
 <template>
-  <div class="shopblock">
+  <div class="shopblock" @click="jump">
     <img :src="shop.thumb_url" alt="">
     <h4>{{shop.short_name}}</h4>
     <div class="shopblock-babels">
@@ -18,7 +18,17 @@ export default {
 // props:['shop','shopIndex'],
 props:{
   shop:Object
-}
+},
+methods: {
+  jump () {
+    this.$router.push({
+      path:'/cart',
+      query:{
+        shop:this.shop
+      }
+    })
+  }
+},
 }
 </script>
 

@@ -3,6 +3,7 @@
     <div class="mehead" v-if="showHead">
       <span>个人中心</span>
     </div>
+    
     <div ref="container" class="container">
       <ul>
         <BeforeLogin />
@@ -35,7 +36,7 @@ import MiddleMe from "./Children/MiddleMe";
 import ShopBlock from "../../components/ShopBlock/ShopBlock";
 import { mapState } from "vuex";
 import BScroll from "better-scroll";
-import { Indicator,Toast } from "mint-ui";
+import { Indicator, Toast } from "mint-ui";
 export default {
   name: "me",
   data() {

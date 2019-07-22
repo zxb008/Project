@@ -4,13 +4,16 @@
       <HeadResult :value="value" />
     </div>
     <div class="containerHeader2" ref="containerHeader2" v-if="show">
-      <ContainerHeader />
+      <ContainerHeader @func="noScroll" />
     </div>
     <div ref="container" class="container">
       <ul>
         <div class="bot-header" ref="containerHeader">
-          <ContainerHeader />
+          <ContainerHeader @func="noScroll" />
         </div>
+        <!-- <div class="bot-header"  v-if="show">
+        
+        </div>-->
         <ul class="container-ul" v-if="recommendshoplist.length > 0">
           <ShopBlock
             :shop="item"
@@ -24,6 +27,10 @@
           <span>没有找到你搜索的商品</span>
         </div>
       </ul>
+    </div>
+    <div class="mianban" ref="mianban" v-if="showmianban">
+      <div class="miantop" @touchmove.prevent></div>
+      <div class="mianbot" @touchmove.prevent></div>
     </div>
   </div>
 </template>
@@ -39,7 +46,8 @@ export default {
   name: "searchresult",
   data() {
     return {
-      show:false,
+      show: false,
+      showmianban: false,
       value: "",
       satrY: 0,
       startIndex: 1,
@@ -114,22 +122,36 @@ export default {
         this.scroll.refresh();
       });
       //监听滚动事件
-      let top;
+      let top1, top2;
       this.scroll.on("scroll", pos => {
-        if (pos.y > -50 && pos.y < 0) {
+        if (pos.y > -50 && pos.y < -3) {
           this.$refs.headresult.style.left = "0px";
           this.$refs.headresult.style.top = `${pos.y}px`;
 
           this.show = true;
-          this.$nextTick(()=>{
-            top = 50 +pos.y
+          this.$nextTick(() => {
+            top1 = 50 + pos.y;
             this.$refs.containerHeader2.style.left = "0px";
-            this.$refs.containerHeader2.style.top = `${top}px`
-          })
-        }  if (pos.y > 0) {
+            this.$refs.containerHeader2.style.top = `${top1}px`;
+
+            // if (this.showmianban) {
+            //   console.log(789);
+            
+            //   top2 = 50 
+            //   this.$refs.mianban.style.left = "0px";
+            //   this.$refs.mianban.style.top = `${top2}px`;
+            // }
+          });
+        }
+        if (pos.y > 0) {
           this.show = false;
         }
       });
+    },
+    //是否出现遮罩层
+    noScroll(flag) {
+      console.log(flag);
+      this.showmianban = flag;
     }
   },
   created() {
@@ -201,4 +223,20 @@ export default {
       span
         color #BBB6B6
         margin-top 20px
+  .mianban
+    position fixed
+    z-index 98
+    left 0px
+    top 98px
+    width 100%
+    height 100%
+    .miantop
+      width 100%
+      height 30%
+      background-color #fff
+    .mianbot
+      width 100%
+      height 70%
+      background-color #77797C
+      opacity 0.7
 </style>
