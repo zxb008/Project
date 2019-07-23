@@ -26,11 +26,11 @@
             <van-swipe-item @click="onClick" @touchstart="handleStart" @touchend="handleEnd">
               <img :src="shop.image_url" alt width="100%" height="300px" />
             </van-swipe-item>
-            <div class="custom-indicator" slot="indicator">{{ current + 1 }}/4</div>
+            <div class="custom-indicator" slot="indicator">{{ current + 1 }}/3</div>
           </van-swipe>
         </div>
-        <div class="wrap-title"></div>
-        <div class="wrap-user"></div>
+        <Title :shop="shop"/>
+        <User  :shop="shop"/>
         <div class="wrap-comment"></div>
         <div class="wrap-store"></div>
         <div class="wrap-msg"></div>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import Title from './Children/Title'
+import User from './Children/User'
 import { ImagePreview } from "vant";
 export default {
   name: "cart",
@@ -50,11 +52,12 @@ export default {
       showHead: false
     };
   },
+  components:{
+    Title,
+    User
+  },
   mounted() {
     this.shop = this.$route.query.shop;
-    // console.log(this.$route.query.shop);
-    // console.log(this.$route.query.shop);
-    // console.log(this.shop);
   },
   methods: {
     back() {
@@ -139,9 +142,37 @@ export default {
       width 100%
       // height 让子元素撑开
       position relative
-    .custom-indicator
-      position absolute
-      bottom 10px
-      right 10px
-      color #fff
+      .custom-indicator
+        position absolute
+        bottom 10px
+        right 10px
+        color #fff
+    // .wrap-title
+    //   width 100%
+    //   height 120px
+    //   background-color #fff
+    // .wrap-user
+    //   margin-top 15px
+    //   width 100%
+    //   height 100px
+    //   border 1px solid #fff
+    //   background-color #fff
+    // .wrap-comment
+    //   margin-top 15px
+    //   width 100%
+    //   height 150px
+    //   border 1px solid #fff
+    //   background-color #fff
+    // .wrap-store
+    //   margin-top 15px
+    //   width 100%
+    //   height 50px
+    //   border 1px solid #fff
+    //   background-color #fff
+    // .wrap-msg
+    //   margin-top 15px
+    //   width 100%
+    //   height 500px
+    //   border 1px solid #fff
+    //   background-color #fff
 </style>
