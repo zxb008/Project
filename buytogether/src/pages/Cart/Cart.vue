@@ -17,13 +17,13 @@
             <!-- <van-swipe-item v-for="(image, index) in shop." :key="index">
               <img v-lazy="image" />
             </van-swipe-item>-->
-            <van-swipe-item @click.stop="onClick1">
+            <van-swipe-item @click="onClick" @touchstart="handleStart" @touchend="handleEnd">
               <img :src="shop.thumb_url" alt width="100%" height="300px" />
             </van-swipe-item>
-            <van-swipe-item @click.stop="onClick2">
+            <van-swipe-item @click="onClick" @touchstart="handleStart" @touchend="handleEnd">
               <img :src="shop.hd_thumb_url" alt width="100%" height="300px" />
             </van-swipe-item>
-            <van-swipe-item @click.stop="onClick3">
+            <van-swipe-item @click="onClick" @touchstart="handleStart" @touchend="handleEnd">
               <img :src="shop.image_url" alt width="100%" height="300px" />
             </van-swipe-item>
             <div class="custom-indicator" slot="indicator">{{ current + 1 }}/4</div>
@@ -63,20 +63,31 @@ export default {
     onChange(index) {
       this.current = index;
     },
-    onClick1(event) {
-      ImagePreview({
-        images: [this.shop.thumb_url,this.shop.hd_thumb_url,this.shop.image_url],
-      });
+    onClick(event) {
+      if (
+        Math.abs(this.nowPoint.x - this.startPoint.x) < 5 &&
+        Math.abs(this.nowPoint.y - this.startPoint.y) < 5
+      ) {
+        ImagePreview({
+          images: [
+            this.shop.thumb_url,
+            this.shop.hd_thumb_url,
+            this.shop.image_url
+          ]
+        });
+      }
     },
-    onClick2(event) {
-       ImagePreview({
-        images: [this.shop.hd_thumb_url,this.shop.image_url,this.shop.thumb_url],
-      });
+    handleStart(e) {
+      this.startPoint = {
+        x: e.changedTouches[0].pageX,
+        y: e.changedTouches[0].pageY
+      };
     },
-    onClick3(event) {
-       ImagePreview({
-        images: [this.shop.image_url,this.shop.thumb_url,this.shop.hd_thumb_url],
-      });
+    handleEnd(e) {
+      this.nowPoint = {
+        x: e.changedTouches[0].pageX,
+        y: e.changedTouches[0].pageY
+      };
     }
   }
 };
