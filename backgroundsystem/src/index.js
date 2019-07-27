@@ -6,6 +6,8 @@ import "bootstrap/dist/css/bootstrap.css"
 import "font-awesome/css/font-awesome.css"
 import "nprogress/nprogress.css"
 
+import "bootstrap/dist/js/bootstrap"
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
