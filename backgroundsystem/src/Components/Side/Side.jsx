@@ -37,22 +37,26 @@ class Side extends Component {
                             </a>
                             <ul className="list-unstyled">
                                 <li>
-                                    <Link to="/course/add">
+                                    <Link to="/courseadd">
+                                    {/* <Link to="/course/add"> */}
                                         课程添加
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/course/list">
+                                    <Link to="/courselist">
+                                    {/* <Link to="/course/list"> */}
                                         课程列表
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/course/category">
+                                    <Link to="/coursecategory">
+                                    {/* <Link to="/course/category"> */}
                                         课程分类
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/course/topic">
+                                    <Link to="/coursetopic">
+                                    {/* <Link to="/course/topic"> */}
                                         课程专题
                                     </Link>
                                 </li>
@@ -65,7 +69,8 @@ class Side extends Component {
                             </a>
                         </li>
                         <li>
-                            <Link to="/sowing/list">
+                            {/* <Link to="/sowing/list"> */}
+                            <Link to="/rotation">
                                 <i className="fa fa-calculator"></i>
                                 轮播图中心
                             </Link>
