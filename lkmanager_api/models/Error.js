@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 mongoose.connect('mongodb://localhost/lk_data');
 
-const errorSchema = mongoose.Schema({
+const errorSchema = new mongoose.Schema({
     // 错误名称
     error_name: {type: String, required: true},
     // 错误消息
@@ -12,5 +12,5 @@ const errorSchema = mongoose.Schema({
     e_time: {type: Date, default: Date.now},
 });
 
-const Error_log = mongoose.model('Error', errorSchema);
+const Error_log = mongoose.model('Error', errorSchema,'Error');
 export default  Error_log;

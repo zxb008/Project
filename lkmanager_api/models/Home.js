@@ -1,7 +1,13 @@
 import mongoose from 'mongoose';
 mongoose.connect('mongodb://localhost/lk_data');
+/**
+ * 连接成功
+ */
+// mongoose.connection.once('connected', function () {
+//     console.log('数据库连接成功');
+// });
 
-const homeSchema = mongoose.Schema({
+const homeSchema = new mongoose.Schema({
     // 登录用户数
     login_user: {type: String, required: true},
     // 新增注册数
@@ -22,5 +28,5 @@ const homeSchema = mongoose.Schema({
     l_time: {type: Date, default: Date.now},
 });
 
-const Home = mongoose.model('Home', homeSchema);
+const Home = mongoose.model('Home', homeSchema,'Home');//Home和数据库中的对应的集合名字要一样
 export default  Home;

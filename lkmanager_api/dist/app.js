@@ -12,6 +12,6 @@ app.get('/', function (req, res, next) {
     res.end('hello, itLike');
 });
 
-app.listen(3000, function () {
+app.listen(1688, function () {
     console.log('server is running');
 });

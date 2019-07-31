@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 mongoose.connect('mongodb://localhost/lk_data');
 
-const sowingSchema = mongoose.Schema({
+const sowingSchema = new mongoose.Schema({
     // 图片的名称
     image_title: {type: String, required: true},
     // 大图片的地址
@@ -20,5 +20,5 @@ const sowingSchema = mongoose.Schema({
     l_time: {type: Date, default: Date.now},
 });
 
-const Sowing = mongoose.model('Sowing', sowingSchema);
+const Sowing = mongoose.model('Sowing', sowingSchema,'Sowing');
 export default  Sowing;
