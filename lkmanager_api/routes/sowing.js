@@ -11,9 +11,10 @@ const router = express.Router({});
  */
 router.post('/sowing/api/add', (req, res, next) => {
     const form = new formidable.IncomingForm();
-    form.uploadDir = config.upload_path;
-    form.keepExtensions = true;
+    form.uploadDir = config.upload_path;//图片等文件存放的文件夹路径
+    form.keepExtensions = true;//保存文件的后缀名
     form.parse(req, (err, fields, files) => {
+        //以post方式提交的表单域数据都放在fields这个对象当中，以post方式上传的文件、图片等文件域数据都放在files这个对象当中
         if (err) {
             return next(err);
         }

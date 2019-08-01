@@ -55,13 +55,13 @@ class SowingList extends Component {
                                             <tr key={key}>
                                                 <td>{key}</td>
                                                 <td>{sowing.image_title}</td>
-                                                <td><img src={BAST_IMG_URL+sowing.image_url} /></td>
-                                                <td><img src={BAST_IMG_URL+sowing.image_small_url} /></td>
+                                                <td><img src={BAST_IMG_URL+sowing.image_url} style={{width:150}}/></td>
+                                                <td><img src={BAST_IMG_URL+sowing.image_small_url}  style={{width:150}}/></td>
                                                 {/* <td><img src={course} /></td>
                                                 <td><img src={course} /></td> */}
                                                 <td>{sowing.image_link}</td>
-                                                <td>{sowing.s_time}</td>
-                                                <td>{sowing.e_time}</td>
+                                                <td>{sowing.s_time.substr(0, 10)}</td>
+                                                <td>{sowing.e_time.substr(0, 10)}</td>
                                                 <td>
                                                     <a href="javascript:;" className="btn btn-primary btn-xs">编辑</a>
                                                     <a href="javascript:;" className="btn btn-danger btn-xs">删除</a>

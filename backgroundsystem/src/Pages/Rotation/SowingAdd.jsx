@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { addSowingData } from '../../api/index'
 class SowingAdd extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +53,7 @@ class SowingAdd extends Component {
               </div>
               <div className="form-group">
                 <div className="col-md-8">
-                  <button  className="btn btn-danger btn-sm pull-right">添加轮播图</button>
+                  <button onClick={this.addSowing} className="btn btn-danger btn-sm pull-right">添加轮播图</button>
                 </div>
               </div>
             </div>
@@ -60,6 +61,39 @@ class SowingAdd extends Component {
         </div>
       </div>
     );
+  }
+  addSowing = () => {
+    let image_title = this.refs.image_title.value;
+    let image_url = this.refs.image_url.files[0];
+    let image_small_url = this.refs.image_small_url.files[0];
+    let image_link = this.refs.image_link.value;
+    let s_time = this.refs.s_time.value;
+    let e_time = this.refs.e_time.value;
+
+    // 2. 验证数据不为空
+    if (!image_title || !image_url || !image_small_url || !image_link || !s_time || !e_time) {
+      alert('输入的内容不能为空！');
+      return;
+    }
+
+    // 3. 创建formData对象
+    let formData = new FormData();
+    formData.append('image_title', image_title);
+    formData.append('image_url', image_url);
+    formData.append('image_small_url', image_small_url);
+    formData.append('image_link', image_link);
+    formData.append('s_time', s_time);
+    formData.append('e_time', e_time);
+
+    addSowingData(formData).then((res) => {
+      if (res.status_code === 200) {
+        //  this.props.history.goBack();
+        this.props.history.push('/sowinglist');//会刷新页面
+      }
+    }).catch((error) => {
+      console.log(error);
+      alert('上传数据失败！');
+    });
   }
 }
 
