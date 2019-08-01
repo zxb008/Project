@@ -70,7 +70,7 @@ class Side extends Component {
                         </li>
                         <li>
                             {/* <Link to="/sowing/list"> */}
-                            <Link to="/rotation">
+                            <Link to="/sowinglist">
                                 <i className="fa fa-calculator"></i>
                                 轮播图中心
                             </Link>

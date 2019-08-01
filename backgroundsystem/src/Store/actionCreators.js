@@ -1,5 +1,5 @@
-import {getHomeData} from '../api/index'
-import { INIT_HOME_DATA } from './actionTypes'
+import {getHomeData, getSowingData} from '../api/index'
+import { INIT_HOME_DATA ,INIT_SOWING_DATA } from './actionTypes'
 
 // const action = {  type:DELETE_ITEM, index}
 // store.dispatch(action)
@@ -29,5 +29,22 @@ export const getHomeDataAction = () =>{
     }).catch(()=>{
       console.log('获取数据失败！');
     })
+  }
+}
+//获取轮播图列表数据
+export const getSowingDataAction = ()=>{
+  return (dispatch) =>{
+    getSowingData().then(
+      (res)=>{
+        if (res.status_code === 200) {
+          const sowingData = res.result;
+         
+          dispatch({
+            type:INIT_SOWING_DATA,
+            sowingData
+          })
+        }
+      }
+    ).catch();
   }
 }
