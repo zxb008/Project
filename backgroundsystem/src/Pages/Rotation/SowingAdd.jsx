@@ -86,6 +86,8 @@ class SowingAdd extends Component {
     formData.append('e_time', e_time);
 
     addSowingData(formData).then((res) => {
+     
+      
       if (res.status_code === 200) {
         //  this.props.history.goBack();
         this.props.history.push('/sowinglist');//会刷新页面

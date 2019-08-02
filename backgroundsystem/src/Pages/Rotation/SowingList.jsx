@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
+import { removeSowingData } from '../../api/index';
 import { getSowingDataAction } from '../../Store/actionCreators'
 class SowingList extends Component {
     render() {
-       const { sowingData } = this.props;
-       const BAST_IMG_URL = 'http://localhost:1688/uploads/';
+        const { sowingData } = this.props;
+        const BAST_IMG_URL = 'http://localhost:1688/uploads/';
         // console.log(sowingData);
-        
+
         return (
             <div className="container-fluid">
                 <div className="body advert">
@@ -49,22 +51,32 @@ class SowingList extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                            {
+                                {
                                     sowingData.map((sowing, key) => {
                                         return (
                                             <tr key={key}>
-                                                <td>{key}</td>
+                                                <td>{key+1}</td>
                                                 <td>{sowing.image_title}</td>
-                                                <td><img src={BAST_IMG_URL+sowing.image_url} style={{width:150}}/></td>
-                                                <td><img src={BAST_IMG_URL+sowing.image_small_url}  style={{width:150}}/></td>
+                                                <td><img src={BAST_IMG_URL + sowing.image_url} style={{ width: 150 }} /></td>
+                                                <td><img src={BAST_IMG_URL + sowing.image_small_url} style={{ width: 150 }} /></td>
                                                 {/* <td><img src={course} /></td>
                                                 <td><img src={course} /></td> */}
                                                 <td>{sowing.image_link}</td>
                                                 <td>{sowing.s_time.substr(0, 10)}</td>
                                                 <td>{sowing.e_time.substr(0, 10)}</td>
                                                 <td>
-                                                    <a href="javascript:;" className="btn btn-primary btn-xs">编辑</a>
-                                                    <a href="javascript:;" className="btn btn-danger btn-xs">删除</a>
+                                                <Link
+                                                    className="btn btn-primary btn-xs"
+                                                    to={{
+                                                        pathname: "/sowingedit",
+                                                        state: { sowing }
+                                                    }}
+                                                >编辑</Link>
+                                                    <button
+                                                        className="btn btn-danger btn-xs"
+                                                        
+                                                        onClick={this.removeSowing.bind(this,sowing._id)}
+                                                    >删除</button>
                                                 </td>
                                             </tr>
                                         )
@@ -86,8 +98,18 @@ class SowingList extends Component {
             </div>
         );
     }
+    removeSowing = (id) => {
+        removeSowingData(id).then((res) => {
+            if (res.status_code === 200) {
+                this.props.reqSowingData();
+            }
+        }).catch((error) => {
+            console.log(error);
+            console.log('删除失败');
+        })
+    }
     componentDidMount() {
-       
+
         this.props.reqSowingData();
     }
 }
@@ -99,7 +121,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         reqSowingData() {
-           
+
             const action = getSowingDataAction();
             dispatch(action)
         }
