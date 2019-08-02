@@ -20,7 +20,7 @@ class SowingList extends Component {
                         <a href="/sowingadd" className="btn btn-danger btn-sm pull-right">添加轮播图</a>
                     </div>
                     <div className="panel panel-default">
-                        <div className="panel-body">
+                        {/* <div className="panel-body">
                             <form action="" className="form-inline">
                                 <select name="" className="form-control input-sm">
                                     <option value="">按课程</option>
@@ -36,7 +36,7 @@ class SowingList extends Component {
                                 </select>
                                 <button className="btn btn-primary btn-sm">排序</button>
                             </form>
-                        </div>
+                        </div> */}
                         <table className="table table-bordered">
                             <thead>
                                 <tr>
@@ -85,7 +85,7 @@ class SowingList extends Component {
                             </tbody>
                         </table>
                     </div>
-                    <ul className="pagination pull-right">
+                    {/* <ul className="pagination pull-right">
                         <li><a href="#">上一页</a></li>
                         <li><a href="#">1</a></li>
                         <li><a href="#">2</a></li>
@@ -93,7 +93,7 @@ class SowingList extends Component {
                         <li><a href="#">4</a></li>
                         <li><a href="#">5</a></li>
                         <li><a href="#">下一页</a></li>
-                    </ul>
+                    </ul> */}
                 </div>
             </div>
         );
