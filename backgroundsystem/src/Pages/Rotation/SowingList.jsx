@@ -17,7 +17,7 @@ class SowingList extends Component {
                         <li className="active">轮播图列表</li>
                     </ol>
                     <div className="page-title">
-                        <a href="/sowingadd" className="btn btn-danger btn-sm pull-right">添加轮播图</a>
+                        <Link to="/sowing/add" className="btn btn-danger btn-sm pull-right">添加轮播图</Link>
                     </div>
                     <div className="panel panel-default">
                         {/* <div className="panel-body">
@@ -68,7 +68,7 @@ class SowingList extends Component {
                                                 <Link
                                                     className="btn btn-primary btn-xs"
                                                     to={{
-                                                        pathname: "/sowingedit",
+                                                        pathname: "/sowing/edit",
                                                         state: { sowing }
                                                     }}
                                                 >编辑</Link>

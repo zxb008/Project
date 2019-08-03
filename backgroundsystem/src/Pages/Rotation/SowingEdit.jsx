@@ -25,7 +25,7 @@ class SowingEdit extends Component {
             <div className="container-fluid">
                 <div className="body teacher-profile">
                     <ol className="breadcrumb">
-                        <li><Link to="/sowinglist">轮播图管理</Link></li>
+                        <li><Link to="/sowing/list">轮播图管理</Link></li>
                         <li className="active">编辑轮播图</li>
                     </ol>
                     <div className="settings">
@@ -208,7 +208,7 @@ class SowingEdit extends Component {
         editSowingData(formData).then((res)=>{
             console.log(res);
             if(res.status_code === 200){
-                this.props.history.push('/sowinglist');
+                this.props.history.push('/sowing/list');
             }
         }).catch((error)=>{
             console.log(error);

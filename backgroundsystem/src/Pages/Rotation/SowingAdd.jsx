@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { addSowingData } from '../../api/index'
+import { addSowingData } from '../../api/index';
+import { Link } from "react-router-dom";
 class SowingAdd extends Component {
   constructor(props) {
     super(props);
@@ -10,7 +11,7 @@ class SowingAdd extends Component {
       <div className="container-fluid">
         <div className="body advert">
           <ol className="breadcrumb">
-            <li><a href="/sowinglist">轮播图管理</a></li>
+            <li><Link to="/sowing/list">轮播图管理</Link></li>
             <li className="active">添加轮播图</li>
           </ol>
           <div className="advert-add">
@@ -90,7 +91,7 @@ class SowingAdd extends Component {
       
       if (res.status_code === 200) {
         //  this.props.history.goBack();
-        this.props.history.push('/sowinglist');//会刷新页面
+        this.props.history.push('/sowing/list');//会刷新页面
       }
     }).catch((error) => {
       console.log(error);

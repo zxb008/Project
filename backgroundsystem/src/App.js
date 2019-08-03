@@ -4,12 +4,17 @@ import { Provider } from 'react-redux';
 import store from './Store/index'
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import routes from './Router/index'
 
-import LayOut from './Components/LayOut/LayOut'
-// import Header from './Components/Header/Header';
-// import Side from './Components/Side/Side';
+
+import LayOut from './Components/LayOut/LayOut';
+import Login from './Pages/User/Login';
+
 import Home from './Pages/Home/Home';
+import User from './Pages/User/User';
+import Mine from './Pages/Mine/Mine';
+
+import SowingRouter from './Pages/Rotation/SowingRouter';
+import CourseRouter from './Pages/Course/CourseRouter';
 
 
 function App() {
@@ -18,45 +23,19 @@ function App() {
     <LayOut>
       <Switch>
         <Route exact path='/' component={Home}></Route>
+        <Route path='/user' component={User}></Route>
+        <Route path='/mine' component={Mine}></Route>
+        <Route path='/sowing' component={SowingRouter}></Route>
+        <Route path='/course' component={CourseRouter}></Route>
       </Switch>
     </LayOut>
   )
   return (
     <Provider store={store}>
       <Router>
-        {/* <div>
-          <Header />
-          <div className="main">
-            <Side />
-            {
-              routes.map( (route,key) => {
-                if (route.exact) {
-                  return (
-                    <Route path={route.path} key={key} exact={route.exact}
-                    render = {
-                      props =>(
-                        // <route.component {...props} routes={route.routes} />
-                        <route.component {...props}  />
-                      )}
-                     ></Route>
-                  )
-                }else{
-                  return (
-                    <Route path={route.path} key={key}
-                    render={
-                      props => (
-                        <route.component {...props}/>
-                      )}
-                    ></Route>
-                  )
-                }
-              })
-            }
-          </div>
-        </div> */}
         <Switch>
-          <Route  path='/login' component={Login}></Route>
-          <Route  path='/' render={props => LayOutRouter}></Route>
+          <Route path='/login' component={Login}></Route>
+          <Route path='/' render={props => LayOutRouter}></Route>
         </Switch>
       </Router>
     </Provider>
