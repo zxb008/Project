@@ -1,7 +1,7 @@
 import express from 'express';
-import Sowing from './../models/Sowing';
+import Sowing from '../models/Sowing';
 import formidable from 'formidable';
-import config from './../src/config';
+import config from '../src/config';
 import {basename} from 'path';
 
 const router = express.Router({});

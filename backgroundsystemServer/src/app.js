@@ -1,13 +1,13 @@
 import express from 'express';
 import config from './config';
 // 1.引入路由的文件
-import indexRouter from './../routes/index';
-import sowingRouter from './../routes/sowing';
-import homeRouter from './../routes/home';
+import indexRouter from '../routes/index';
+import sowingRouter from '../routes/sowing';
+import homeRouter from '../routes/home';
 
 // 引入中间件
-import bodyParser from './../middle_wares/body_parser';
-import errorLog from './../middle_wares/error_log';
+import bodyParser from '../middle_wares/body_parser';
+import errorLog from '../middle_wares/error_log';
 
 // 2. 引入模板引擎
 import nunjucks from 'nunjucks';

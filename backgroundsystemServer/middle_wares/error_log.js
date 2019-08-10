@@ -1,4 +1,4 @@
-import Error_log from './../models/Error'
+import Error_log from '../models/Error'
 
 export default (errLog, req, res, next)=>{
     const error_log = new Error_log({
