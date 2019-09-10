@@ -92,9 +92,6 @@ router.get('/', function (req, res, next) {
 
 
 
-
-
-
 /*
  * 获取首页轮播图
  */
