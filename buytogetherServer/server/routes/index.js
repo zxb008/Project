@@ -107,7 +107,7 @@ router.get('/api/homecasual', (req, res) => {
             //console.log(results);
             //从数据中查找后返回的结果results是一个数组，数组元素是对象
             // console.log();
-            res.json({ success_code: 200, message: results })
+            res.json({ success_code: 200, message:results })
 
     })
     //    const data = require('../data/homecasual');
